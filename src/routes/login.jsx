@@ -1,8 +1,13 @@
-import {createFileRoute, Navigate, useNavigate} from "@tanstack/react-router";
+import {createFileRoute, useNavigate, redirect} from "@tanstack/react-router";
 import {useContext} from "react";
 import {AuthContext} from "../context";
 
 export const Route = createFileRoute("/login")({
+  beforeLoad: async ({}) => {
+    if (localStorage.getItem("authUser")) {
+      throw redirect({to: "/dashboard"});
+    }
+  },
   component: RouteComponent,
 });
 
@@ -19,7 +24,7 @@ function RouteComponent() {
           console.log("hello");
           localStorage.setItem("authUser", JSON.stringify({name: "angling"}));
           setAuthUser({name: "angling"});
-          navigate({to: "/"});
+          navigate({to: "/dashboard"});
         }}
       >
         Login

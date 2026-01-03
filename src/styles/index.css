@@ -11,20 +11,51 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --white: #f9faff;
+  --platinum: #e3e4e8;
+  --windsurfing: #32779b;
+  --marina: #5a91c7;
+  --gray: #9a9a9a;
+  --onyx: #3c3d44;
+  --charcoal: #343c47;
+  --corners: 24px 0;
+  --corners-sm: 10px 0;
+  --base-font-size: 1rem;
+  --ld-bkgd: light-dark(var(--platinum), var(--charcoal));
+  --ld-text: light-dark(var(--onyx), var(--white));
+  --ld-projects: light-dark(var(--white), #2e313d);
+  --ld-blue: light-dark(var(--windsurfing), #6dadd0);
+  --sidebar-bkg: var(--charcoal);
+  --sidebar-border-menu: var(--onyx);
+  --dashboard-header-bkg: #f0f2f5;
+  --dashboard-content-bkg: #ffffff;
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--white);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--platinum);
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+}
 body {
   margin: 0;
-  display: flex;
+  display: block;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  margin: 0;
+  display: block;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
@@ -60,7 +91,7 @@ button:focus-visible {
     background-color: #ffffff;
   }
   a:hover {
-    color: #747bff;
+    color: var(--platinum);
   }
   button {
     background-color: #f9f9f9;

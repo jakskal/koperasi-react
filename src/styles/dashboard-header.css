@@ -1,0 +1,17 @@
+@import url(./index.css);
+
+.main__header {
+  display: flex;
+  padding: 8px 16px;
+  justify-content: space-between;
+}
+
+.main__header--profile {
+  display: flex;
+  gap: 12px;
+}
+
+.main__header--avatar {
+  width: 60px;
+  height: 60px;
+}

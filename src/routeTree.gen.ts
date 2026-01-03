@@ -13,66 +13,126 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as _rootIndexRouteImport } from './routes/__root/index'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 
-const _rootAnggotaLazyRouteImport = createFileRoute('/__root/anggota')()
-const _rootAdminLazyRouteImport = createFileRoute('/__root/admin')()
+const DashboardAnggotaLazyRouteImport = createFileRoute('/dashboard/anggota')()
+const DashboardAdminLazyRouteImport = createFileRoute('/dashboard/admin')()
 
 const _rootIndexRoute = _rootIndexRouteImport.update({
   id: '/__root/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const _rootAnggotaLazyRoute = _rootAnggotaLazyRouteImport
-  .update({
-    id: '/__root/anggota',
-    path: '/anggota',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-  .lazy(() => import('./routes/__root/anggota.lazy').then((d) => d.Route))
-const _rootAdminLazyRoute = _rootAdminLazyRouteImport
-  .update({
-    id: '/__root/admin',
-    path: '/admin',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-  .lazy(() => import('./routes/__root/admin.lazy').then((d) => d.Route))
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardAnggotaLazyRoute = DashboardAnggotaLazyRouteImport.update({
+  id: '/anggota',
+  path: '/anggota',
+  getParentRoute: () => DashboardRoute,
+} as any).lazy(() =>
+  import('./routes/dashboard/anggota.lazy').then((d) => d.Route),
+)
+const DashboardAdminLazyRoute = DashboardAdminLazyRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => DashboardRoute,
+} as any).lazy(() =>
+  import('./routes/dashboard/admin.lazy').then((d) => d.Route),
+)
 
 export interface FileRoutesByFullPath {
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
-  '/admin': typeof _rootAdminLazyRoute
-  '/anggota': typeof _rootAnggotaLazyRoute
+  '/dashboard/admin': typeof DashboardAdminLazyRoute
+  '/dashboard/anggota': typeof DashboardAnggotaLazyRoute
   '/': typeof _rootIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
-  '/admin': typeof _rootAdminLazyRoute
-  '/anggota': typeof _rootAnggotaLazyRoute
+  '/dashboard/admin': typeof DashboardAdminLazyRoute
+  '/dashboard/anggota': typeof DashboardAnggotaLazyRoute
   '/': typeof _rootIndexRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
-  '/__root/admin': typeof _rootAdminLazyRoute
-  '/__root/anggota': typeof _rootAnggotaLazyRoute
+  '/dashboard/admin': typeof DashboardAdminLazyRoute
+  '/dashboard/anggota': typeof DashboardAnggotaLazyRoute
   '/__root/': typeof _rootIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/admin' | '/anggota' | '/'
+  fullPaths:
+    | '/about'
+    | '/contact'
+    | '/dashboard'
+    | '/login'
+    | '/dashboard/admin'
+    | '/dashboard/anggota'
+    | '/'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/admin' | '/anggota' | '/'
-  id: '__root__' | '/login' | '/__root/admin' | '/__root/anggota' | '/__root/'
+  to:
+    | '/about'
+    | '/contact'
+    | '/login'
+    | '/dashboard/admin'
+    | '/dashboard/anggota'
+    | '/'
+    | '/dashboard'
+  id:
+    | '__root__'
+    | '/about'
+    | '/contact'
+    | '/dashboard'
+    | '/login'
+    | '/dashboard/admin'
+    | '/dashboard/anggota'
+    | '/__root/'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   LoginRoute: typeof LoginRoute
-  _rootAdminLazyRoute: typeof _rootAdminLazyRoute
-  _rootAnggotaLazyRoute: typeof _rootAnggotaLazyRoute
   _rootIndexRoute: typeof _rootIndexRoute
 }
 
@@ -85,20 +145,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _rootIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/__root/anggota': {
-      id: '/__root/anggota'
-      path: '/anggota'
-      fullPath: '/anggota'
-      preLoaderRoute: typeof _rootAnggotaLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/__root/admin': {
-      id: '/__root/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof _rootAdminLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -106,13 +152,72 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/anggota': {
+      id: '/dashboard/anggota'
+      path: '/anggota'
+      fullPath: '/dashboard/anggota'
+      preLoaderRoute: typeof DashboardAnggotaLazyRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/admin': {
+      id: '/dashboard/admin'
+      path: '/admin'
+      fullPath: '/dashboard/admin'
+      preLoaderRoute: typeof DashboardAdminLazyRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardAdminLazyRoute: typeof DashboardAdminLazyRoute
+  DashboardAnggotaLazyRoute: typeof DashboardAnggotaLazyRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAdminLazyRoute: DashboardAdminLazyRoute,
+  DashboardAnggotaLazyRoute: DashboardAnggotaLazyRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   LoginRoute: LoginRoute,
-  _rootAdminLazyRoute: _rootAdminLazyRoute,
-  _rootAnggotaLazyRoute: _rootAnggotaLazyRoute,
   _rootIndexRoute: _rootIndexRoute,
 }
 export const routeTree = rootRouteImport
