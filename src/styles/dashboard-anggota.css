@@ -1,0 +1,8 @@
+@import url(./index.css);
+
+.main__anggota {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 16px;
+}

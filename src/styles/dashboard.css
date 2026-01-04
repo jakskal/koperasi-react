@@ -2,7 +2,7 @@
 
 .dashboard {
   display: grid;
-  grid-template-columns: 2fr 9fr;
+  grid-template-columns: 0.6fr 9fr;
   grid-template-rows: 0.6fr 10.4fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
@@ -35,4 +35,8 @@
 .dashboard__content {
   grid-area: 2 / 2 / 3 / 3;
   background-color: var(--dashboard-content-bkg);
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  padding: 40px 16px 0 16px;
 }

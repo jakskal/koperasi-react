@@ -1,0 +1,69 @@
+@import url("../../styles/index.css");
+
+.table__main {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Header styling */
+.table__main thead {
+  background-color: #f5f7fa;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.table__main th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  color: #2d3748;
+  letter-spacing: 0.5px;
+}
+
+/* Body styling */
+.table__main tbody tr {
+  border-bottom: 1px solid #e2e8f0;
+  transition: background-color 0.2s ease;
+}
+
+.table__main tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table__main tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.table__main td {
+  padding: 16px;
+  font-size: 14px;
+  color: #4a5568;
+}
+
+/* Action buttons styling */
+.table__main button {
+  padding: 6px 12px;
+  margin: 0 4px;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #2d3748;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.table__main button:hover {
+  border-color: #4299e1;
+  color: #4299e1;
+  background-color: #ebf8ff;
+}
+
+.table__main button:active {
+  transform: scale(0.98);
+}

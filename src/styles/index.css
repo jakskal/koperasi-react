@@ -29,7 +29,11 @@
   --sidebar-bkg: var(--charcoal);
   --sidebar-border-menu: var(--onyx);
   --dashboard-header-bkg: #f0f2f5;
-  --dashboard-content-bkg: #ffffff;
+  /* --dashboard-content-bkg: #ffffff; */
+  --dashboard-content-bkg: var(--windsurfing);
+  --content-table-bkg: var(--dashboard-header-bkg);
+  --button-content-bkg: var(--dashboard-header-bkg);
+  --button-header-bkg: var(--dashboard-content-bkg);
 }
 
 a {
@@ -94,6 +98,6 @@ button:focus-visible {
     color: var(--platinum);
   }
   button {
-    background-color: #f9f9f9;
+    background-color: var(--button-content-bkg);
   }
 }

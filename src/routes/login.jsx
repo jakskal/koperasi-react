@@ -12,16 +12,14 @@ export const Route = createFileRoute("/login")({
 });
 
 function RouteComponent() {
-  const {authUser, setAuthUser} = useContext(AuthContext);
+  const {setAuthUser} = useContext(AuthContext);
   const navigate = useNavigate();
-  console.log(authUser);
 
   return (
     <div>
       <h1>welcome</h1>
       <button
         onClick={() => {
-          console.log("hello");
           localStorage.setItem("authUser", JSON.stringify({name: "angling"}));
           setAuthUser({name: "angling"});
           navigate({to: "/dashboard"});
