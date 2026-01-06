@@ -1,16 +1,17 @@
 import {createLazyFileRoute} from "@tanstack/react-router";
 import {useListAnggota} from "../../features/anggota/hooks";
 import DataTable from "../../component/Datatable/Datatable";
-export const Route = createLazyFileRoute("/dashboard/anggota")({
-  component: AnggotaRouteComponent,
-});
 import "../../styles/dashboard-anggota.css";
 import {useState} from "react";
 import Modal from "../../modal/Modal";
 import AnggotaForm from "../../features/anggota/AnggotaForm";
 import {createAnggota, deleteAnggota, updateAnggota} from "../../features/anggota/api";
-import {FiDelete, FiEdit, FiTrash2} from "react-icons/fi";
+import {FiEdit, FiTrash2} from "react-icons/fi";
 import {mapListAnggota} from "../../features/anggota/mapper.js";
+
+export const Route = createLazyFileRoute("/dashboard/anggota")({
+  component: AnggotaRouteComponent,
+});
 
 function AnggotaRouteComponent() {
   const {data: rawData, isLoading, refetch} = useListAnggota();
@@ -53,7 +54,6 @@ function AnggotaRouteComponent() {
       console.error("Error updating anggota:", error);
     }
   };
-  if (isLoading) return <p>loading...</p>;
 
   const columns = [
     {key: "member_id", label: "Nomor Anggota"},
@@ -77,12 +77,15 @@ function AnggotaRouteComponent() {
       ),
     },
   ];
+
+  if (isLoading) return <p>loading...</p>;
+
   return (
     <div className="main__anggota">
       <button className="button__anggota--add" onClick={() => setIsCreateOpen(true)}>
         + Buat Anggota
       </button>
-      <DataTable columns={columns} data={displayData} />
+      <DataTable columns={columns} data={displayData} idKey="id" />
 
       <Modal isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} title="Buat Anggota">
         <AnggotaForm onSubmit={handleCreate} />

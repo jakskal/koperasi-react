@@ -1,10 +1,7 @@
 import {useState} from "react";
+import {formatDate} from "../../utils/formatDate";
 
 export default function AnggotaForm({data, onSubmit}) {
-  const formatDate = (dateStr) => {
-    if (!dateStr) return "";
-    return dateStr.split("T")[0];
-  };
   const generateRandomString = () => {
     return Math.random().toString(36).substring(2, 15);
   };

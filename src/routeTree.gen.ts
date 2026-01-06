@@ -18,6 +18,9 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 
+const DashboardPinjamanLazyRouteImport = createFileRoute(
+  '/dashboard/pinjaman',
+)()
 const DashboardAnggotaLazyRouteImport = createFileRoute('/dashboard/anggota')()
 const DashboardAdminLazyRouteImport = createFileRoute('/dashboard/admin')()
 
@@ -51,6 +54,13 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardPinjamanLazyRoute = DashboardPinjamanLazyRouteImport.update({
+  id: '/pinjaman',
+  path: '/pinjaman',
+  getParentRoute: () => DashboardRoute,
+} as any).lazy(() =>
+  import('./routes/dashboard/pinjaman.lazy').then((d) => d.Route),
+)
 const DashboardAnggotaLazyRoute = DashboardAnggotaLazyRouteImport.update({
   id: '/anggota',
   path: '/anggota',
@@ -73,6 +83,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/dashboard/admin': typeof DashboardAdminLazyRoute
   '/dashboard/anggota': typeof DashboardAnggotaLazyRoute
+  '/dashboard/pinjaman': typeof DashboardPinjamanLazyRoute
   '/': typeof _rootIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
@@ -82,6 +93,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/dashboard/admin': typeof DashboardAdminLazyRoute
   '/dashboard/anggota': typeof DashboardAnggotaLazyRoute
+  '/dashboard/pinjaman': typeof DashboardPinjamanLazyRoute
   '/': typeof _rootIndexRoute
   '/dashboard': typeof DashboardIndexRoute
 }
@@ -93,6 +105,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/dashboard/admin': typeof DashboardAdminLazyRoute
   '/dashboard/anggota': typeof DashboardAnggotaLazyRoute
+  '/dashboard/pinjaman': typeof DashboardPinjamanLazyRoute
   '/__root/': typeof _rootIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
@@ -105,6 +118,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/dashboard/admin'
     | '/dashboard/anggota'
+    | '/dashboard/pinjaman'
     | '/'
     | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
@@ -114,6 +128,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/dashboard/admin'
     | '/dashboard/anggota'
+    | '/dashboard/pinjaman'
     | '/'
     | '/dashboard'
   id:
@@ -124,6 +139,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/dashboard/admin'
     | '/dashboard/anggota'
+    | '/dashboard/pinjaman'
     | '/__root/'
     | '/dashboard/'
   fileRoutesById: FileRoutesById
@@ -180,6 +196,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/pinjaman': {
+      id: '/dashboard/pinjaman'
+      path: '/pinjaman'
+      fullPath: '/dashboard/pinjaman'
+      preLoaderRoute: typeof DashboardPinjamanLazyRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/anggota': {
       id: '/dashboard/anggota'
       path: '/anggota'
@@ -200,12 +223,14 @@ declare module '@tanstack/react-router' {
 interface DashboardRouteChildren {
   DashboardAdminLazyRoute: typeof DashboardAdminLazyRoute
   DashboardAnggotaLazyRoute: typeof DashboardAnggotaLazyRoute
+  DashboardPinjamanLazyRoute: typeof DashboardPinjamanLazyRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAdminLazyRoute: DashboardAdminLazyRoute,
   DashboardAnggotaLazyRoute: DashboardAnggotaLazyRoute,
+  DashboardPinjamanLazyRoute: DashboardPinjamanLazyRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
