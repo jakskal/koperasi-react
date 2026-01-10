@@ -1,0 +1,8 @@
+@import url(./index.css);
+
+.main__simpanan {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 16px;
+}

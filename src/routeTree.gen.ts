@@ -18,11 +18,20 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 
+const DashboardSimpananLazyRouteImport = createFileRoute(
+  '/dashboard/simpanan',
+)()
 const DashboardPinjamanLazyRouteImport = createFileRoute(
   '/dashboard/pinjaman',
 )()
 const DashboardAnggotaLazyRouteImport = createFileRoute('/dashboard/anggota')()
 const DashboardAdminLazyRouteImport = createFileRoute('/dashboard/admin')()
+const DashboardSimpananSimpananIdLazyRouteImport = createFileRoute(
+  '/dashboard/simpanan/$simpananId',
+)()
+const DashboardPinjamanPinjamanIdLazyRouteImport = createFileRoute(
+  '/dashboard/pinjaman/$pinjamanId',
+)()
 
 const _rootIndexRoute = _rootIndexRouteImport.update({
   id: '/__root/',
@@ -54,6 +63,13 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardSimpananLazyRoute = DashboardSimpananLazyRouteImport.update({
+  id: '/simpanan',
+  path: '/simpanan',
+  getParentRoute: () => DashboardRoute,
+} as any).lazy(() =>
+  import('./routes/dashboard/simpanan.lazy').then((d) => d.Route),
+)
 const DashboardPinjamanLazyRoute = DashboardPinjamanLazyRouteImport.update({
   id: '/pinjaman',
   path: '/pinjaman',
@@ -75,6 +91,22 @@ const DashboardAdminLazyRoute = DashboardAdminLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/dashboard/admin.lazy').then((d) => d.Route),
 )
+const DashboardSimpananSimpananIdLazyRoute =
+  DashboardSimpananSimpananIdLazyRouteImport.update({
+    id: '/simpanan/$simpananId',
+    path: '/simpanan/$simpananId',
+    getParentRoute: () => DashboardRoute,
+  } as any).lazy(() =>
+    import('./routes/dashboard/simpanan.$simpananId.lazy').then((d) => d.Route),
+  )
+const DashboardPinjamanPinjamanIdLazyRoute =
+  DashboardPinjamanPinjamanIdLazyRouteImport.update({
+    id: '/pinjaman/$pinjamanId',
+    path: '/pinjaman/$pinjamanId',
+    getParentRoute: () => DashboardRoute,
+  } as any).lazy(() =>
+    import('./routes/dashboard/pinjaman.$pinjamanId.lazy').then((d) => d.Route),
+  )
 
 export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
@@ -84,8 +116,11 @@ export interface FileRoutesByFullPath {
   '/dashboard/admin': typeof DashboardAdminLazyRoute
   '/dashboard/anggota': typeof DashboardAnggotaLazyRoute
   '/dashboard/pinjaman': typeof DashboardPinjamanLazyRoute
+  '/dashboard/simpanan': typeof DashboardSimpananLazyRoute
   '/': typeof _rootIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/pinjaman/$pinjamanId': typeof DashboardPinjamanPinjamanIdLazyRoute
+  '/dashboard/simpanan/$simpananId': typeof DashboardSimpananSimpananIdLazyRoute
 }
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
@@ -94,8 +129,11 @@ export interface FileRoutesByTo {
   '/dashboard/admin': typeof DashboardAdminLazyRoute
   '/dashboard/anggota': typeof DashboardAnggotaLazyRoute
   '/dashboard/pinjaman': typeof DashboardPinjamanLazyRoute
+  '/dashboard/simpanan': typeof DashboardSimpananLazyRoute
   '/': typeof _rootIndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/pinjaman/$pinjamanId': typeof DashboardPinjamanPinjamanIdLazyRoute
+  '/dashboard/simpanan/$simpananId': typeof DashboardSimpananSimpananIdLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -106,8 +144,11 @@ export interface FileRoutesById {
   '/dashboard/admin': typeof DashboardAdminLazyRoute
   '/dashboard/anggota': typeof DashboardAnggotaLazyRoute
   '/dashboard/pinjaman': typeof DashboardPinjamanLazyRoute
+  '/dashboard/simpanan': typeof DashboardSimpananLazyRoute
   '/__root/': typeof _rootIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/pinjaman/$pinjamanId': typeof DashboardPinjamanPinjamanIdLazyRoute
+  '/dashboard/simpanan/$simpananId': typeof DashboardSimpananSimpananIdLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -119,8 +160,11 @@ export interface FileRouteTypes {
     | '/dashboard/admin'
     | '/dashboard/anggota'
     | '/dashboard/pinjaman'
+    | '/dashboard/simpanan'
     | '/'
     | '/dashboard/'
+    | '/dashboard/pinjaman/$pinjamanId'
+    | '/dashboard/simpanan/$simpananId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
@@ -129,8 +173,11 @@ export interface FileRouteTypes {
     | '/dashboard/admin'
     | '/dashboard/anggota'
     | '/dashboard/pinjaman'
+    | '/dashboard/simpanan'
     | '/'
     | '/dashboard'
+    | '/dashboard/pinjaman/$pinjamanId'
+    | '/dashboard/simpanan/$simpananId'
   id:
     | '__root__'
     | '/about'
@@ -140,8 +187,11 @@ export interface FileRouteTypes {
     | '/dashboard/admin'
     | '/dashboard/anggota'
     | '/dashboard/pinjaman'
+    | '/dashboard/simpanan'
     | '/__root/'
     | '/dashboard/'
+    | '/dashboard/pinjaman/$pinjamanId'
+    | '/dashboard/simpanan/$simpananId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -196,6 +246,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/simpanan': {
+      id: '/dashboard/simpanan'
+      path: '/simpanan'
+      fullPath: '/dashboard/simpanan'
+      preLoaderRoute: typeof DashboardSimpananLazyRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/pinjaman': {
       id: '/dashboard/pinjaman'
       path: '/pinjaman'
@@ -217,6 +274,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAdminLazyRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/simpanan/$simpananId': {
+      id: '/dashboard/simpanan/$simpananId'
+      path: '/simpanan/$simpananId'
+      fullPath: '/dashboard/simpanan/$simpananId'
+      preLoaderRoute: typeof DashboardSimpananSimpananIdLazyRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/pinjaman/$pinjamanId': {
+      id: '/dashboard/pinjaman/$pinjamanId'
+      path: '/pinjaman/$pinjamanId'
+      fullPath: '/dashboard/pinjaman/$pinjamanId'
+      preLoaderRoute: typeof DashboardPinjamanPinjamanIdLazyRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
 
@@ -224,14 +295,20 @@ interface DashboardRouteChildren {
   DashboardAdminLazyRoute: typeof DashboardAdminLazyRoute
   DashboardAnggotaLazyRoute: typeof DashboardAnggotaLazyRoute
   DashboardPinjamanLazyRoute: typeof DashboardPinjamanLazyRoute
+  DashboardSimpananLazyRoute: typeof DashboardSimpananLazyRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardPinjamanPinjamanIdLazyRoute: typeof DashboardPinjamanPinjamanIdLazyRoute
+  DashboardSimpananSimpananIdLazyRoute: typeof DashboardSimpananSimpananIdLazyRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAdminLazyRoute: DashboardAdminLazyRoute,
   DashboardAnggotaLazyRoute: DashboardAnggotaLazyRoute,
   DashboardPinjamanLazyRoute: DashboardPinjamanLazyRoute,
+  DashboardSimpananLazyRoute: DashboardSimpananLazyRoute,
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardPinjamanPinjamanIdLazyRoute: DashboardPinjamanPinjamanIdLazyRoute,
+  DashboardSimpananSimpananIdLazyRoute: DashboardSimpananSimpananIdLazyRoute,
 }
 
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(

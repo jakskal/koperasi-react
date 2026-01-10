@@ -41,6 +41,15 @@ export default function SideBar() {
         >
           <Link to="/dashboard/pinjaman">Pinjaman</Link>
         </li>
+        <li
+          key="simpanan"
+          className={selectedMenu == "simpanan" ? selectedClass : ""}
+          onClick={() => {
+            handleClick("simpanan");
+          }}
+        >
+          <Link to="/dashboard/simpanan">Simpanan</Link>
+        </li>
       </ul>
     </div>
   );
