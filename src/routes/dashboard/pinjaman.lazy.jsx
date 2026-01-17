@@ -1,13 +1,14 @@
-import {createLazyFileRoute} from "@tanstack/react-router";
+import {createLazyFileRoute, useNavigate} from "@tanstack/react-router";
 import {mapListPinjaman} from "../../features/pinjaman/mapper";
 import {useListPinjaman} from "../../features/pinjaman/hooks";
 import DataTable from "../../component/Datatable/Datatable";
-import {FiEdit, FiTrash2} from "react-icons/fi";
+import {FiEdit, FiTrash2, FiEye} from "react-icons/fi";
 import PinjamanForm from "../../features/pinjaman/PinjamanForm";
 import {useState} from "react";
 import Modal from "../../modal/Modal";
 import "../../styles/dashboard-pinjaman.css";
 import {createPinjaman, deletePinjaman, updatePinjaman} from "../../features/pinjaman/api";
+import {toast} from "sonner";
 
 export const Route = createLazyFileRoute("/dashboard/pinjaman")({
   component: PinjamanRouteComponent,
@@ -26,7 +27,9 @@ function PinjamanRouteComponent() {
       await createPinjaman(formData);
       setIsCreateOpen(false);
       refetch();
+      toast.success("Pinjaman berhasil dibuat.", { duration: 3000, closeButton: true });
     } catch (error) {
+      toast.error("Gagal membuat pinjaman.", { duration: 3000, closeButton: true });
       console.error("Error creating pinjaman:", error);
     }
   };
@@ -41,7 +44,9 @@ function PinjamanRouteComponent() {
       setIsEditOpen(false);
       setSelectedRow(null);
       refetch();
+      toast.success("Pinjaman berhasil diubah.", { duration: 3000, closeButton: true });
     } catch (error) {
+      toast.error("Gagal mengubah pinjaman.", { duration: 3000, closeButton: true });
       console.error("Error updating pinjaman:", error);
     }
   };
@@ -49,10 +54,14 @@ function PinjamanRouteComponent() {
     try {
       await deletePinjaman(id);
       refetch();
+      toast.success("Pinjaman berhasil dihapus.", { duration: 3000, closeButton: true });
     } catch (error) {
+      toast.error("Gagal menghapus pinjaman.", { duration: 3000, closeButton: true });
       console.error("Error deleting pinjaman:", error);
     }
   };
+
+  const navigate = useNavigate();
   if (isLoading) return <p>loading...</p>;
 
   const columns = [
@@ -74,6 +83,9 @@ function PinjamanRouteComponent() {
           </button>
           <button onClick={() => handleDelete(row.id)} title="Hapus">
             <FiTrash2 color="red" />
+          </button>
+          <button onClick={() => navigate({to: "/dashboard/pinjaman/" + row.id})} title="Detail">
+            <FiEye />
           </button>
         </div>
       ),

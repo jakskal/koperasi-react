@@ -8,6 +8,7 @@ import AnggotaForm from "../../features/anggota/AnggotaForm";
 import {createAnggota, deleteAnggota, updateAnggota} from "../../features/anggota/api";
 import {FiEdit, FiTrash2} from "react-icons/fi";
 import {mapListAnggota} from "../../features/anggota/mapper.js";
+import {toast} from "sonner";
 
 export const Route = createLazyFileRoute("/dashboard/anggota")({
   component: AnggotaRouteComponent,
@@ -26,15 +27,23 @@ function AnggotaRouteComponent() {
       await createAnggota(formData);
       setIsCreateOpen(false);
       refetch();
+      let message = `Anggota ${formData.name} berhasil dibuat.`;
+      toast.success(message, {duration: 3000, closeButton: true});
     } catch (error) {
+      toast.error("Gagal membuat anggota.", {duration: 3000, closeButton: true});
       console.error("Error creating anggota:", error);
     }
   };
   const handleDelete = async (id) => {
+    if (!window.confirm("Apakah Anda yakin ingin menghapus anggota ini?")) {
+      return;
+    }
     try {
       await deleteAnggota(id);
       refetch();
+      toast.success("Anggota berhasil dihapus.", {duration: 3000, closeButton: true});
     } catch (error) {
+      toast.error("Gagal menghapus anggota.", {duration: 3000, closeButton: true});
       console.error("Error deleting anggota:", error);
     }
   };
@@ -50,7 +59,9 @@ function AnggotaRouteComponent() {
       setIsEditOpen(false);
       setSelectedRow(null);
       refetch();
+      toast.success("Anggota berhasil diubah.", {duration: 3000, closeButton: true});
     } catch (error) {
+      toast.error("Gagal mengubah anggota.", {duration: 3000, closeButton: true});
       console.error("Error updating anggota:", error);
     }
   };

@@ -8,6 +8,7 @@ import {createSimpanan, deleteSimpanan, updateSimpanan} from "../../features/sim
 import Modal from "../../modal/Modal.jsx";
 import SimpananForm from "../../features/simpanan/SimpananForm.jsx";
 import {FiEdit, FiTrash2} from "react-icons/fi";
+import {toast} from "sonner";
 
 export const Route = createLazyFileRoute("/dashboard/simpanan")({
   component: SimpananRouteComponent,
@@ -31,14 +32,22 @@ function SimpananRouteComponent() {
       setIsEditOpen(false);
       setSelectedRow(null);
       refetch();
+      toast.success("Simpanan berhasil diubah.", { duration: 3000, closeButton: true });
     } catch (error) {
+      toast.error("Gagal mengubah simpanan.", { duration: 3000, closeButton: true });
       console.error("Error updating simpanan:", error);
     }
   };
 
   const handleDelete = async (id) => {
-    deleteSimpanan(id);
-    refetch();
+    try {
+      await deleteSimpanan(id);
+      refetch();
+      toast.success("Simpanan berhasil dihapus.", { duration: 3000, closeButton: true });
+    } catch (error) {
+      toast.error("Gagal menghapus simpanan.", { duration: 3000, closeButton: true });
+      console.error("Error deleting simpanan:", error);
+    }
   };
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -48,7 +57,9 @@ function SimpananRouteComponent() {
       await createSimpanan(formData);
       setIsCreateOpen(false);
       refetch();
+      toast.success("Simpanan berhasil dibuat.", { duration: 3000, closeButton: true });
     } catch (error) {
+      toast.error("Gagal membuat simpanan.", { duration: 3000, closeButton: true });
       console.log("Error creating simpanan:", error);
     }
   };

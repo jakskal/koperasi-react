@@ -5,6 +5,11 @@ export async function fetchListPinjaman() {
   return res.data;
 }
 
+export async function fetchPinjamanDetail(id) {
+  const res = await fetchAPI(`/v1/admin/loan/${id}`);
+  return res;
+}
+
 export async function createPinjaman(data) {
   const payload = {
     ...data,

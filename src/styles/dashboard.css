@@ -14,6 +14,7 @@
   background-color: var(--sidebar-bkg);
   color: var(--white);
   padding-top: 40px;
+  padding-bottom: 40px;
   min-width: 100px;
 }
 
@@ -38,5 +39,5 @@
   display: flex;
   justify-content: start;
   flex-direction: column;
-  padding: 40px 16px 0 16px;
+  padding: 40px 16px 40px 16px;
 }

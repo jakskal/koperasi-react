@@ -1,0 +1,39 @@
+@import url(./index.css);
+@import url(./dashboard-pinjaman.css);
+.pinjaman__detail--info {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: var(--white);
+}
+
+.pinjaman__detail--header {
+  margin-bottom: 0.5rem;
+  color: var(--charcoal);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  background-color: var(--dashboard-header-bkg);
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.cicilan-changes {
+  border-top: 1px solid #ccc;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.change-item {
+  margin-bottom: 1rem;
+  padding: 8px;
+}
+
+.change-item__main {
+  padding: 8px;
+  border: 4px solid var(--dashboard-header-bkg);
+  margin-bottom: 16px;
+}

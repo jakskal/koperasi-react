@@ -1,5 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
-import {fetchListPinjaman} from "./api";
+import {fetchListPinjaman, fetchPinjamanDetail} from "./api";
 import {fetchLoanTypes, fetchUserOptions} from "../../services/selectedOptions";
 
 export function useListPinjaman() {
@@ -20,5 +20,13 @@ export function useSelectUserOptions() {
   return useQuery({
     queryKey: ["userOptions"],
     queryFn: fetchUserOptions,
+  });
+}
+
+export function usePinjamanDetail(id) {
+  return useQuery({
+    queryKey: ["pinjamanDetail", id],
+    queryFn: () => fetchPinjamanDetail(id),
+    enabled: !!id,
   });
 }
