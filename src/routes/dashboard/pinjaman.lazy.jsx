@@ -19,10 +19,14 @@ function PinjamanRouteComponent() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [isCreating, setIsCreating] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const displayData = rawData?.map(mapListPinjaman);
 
   const handleCreate = async (formData) => {
+    setIsCreating(true);
     try {
       await createPinjaman(formData);
       setIsCreateOpen(false);
@@ -31,6 +35,8 @@ function PinjamanRouteComponent() {
     } catch (error) {
       toast.error("Gagal membuat pinjaman.", {duration: 2000, closeButton: true});
       console.error("Error creating pinjaman:", error);
+    } finally {
+      setIsCreating(false);
     }
   };
   const handleEdit = async (id) => {
@@ -39,6 +45,7 @@ function PinjamanRouteComponent() {
     setIsEditOpen(true);
   };
   const handleUpdate = async (formData) => {
+    setIsUpdating(true);
     try {
       await updatePinjaman(formData);
       setIsEditOpen(false);
@@ -48,12 +55,15 @@ function PinjamanRouteComponent() {
     } catch (error) {
       toast.error("Gagal mengubah pinjaman.", {duration: 2000, closeButton: true});
       console.error("Error updating pinjaman:", error);
+    } finally {
+      setIsUpdating(false);
     }
   };
   const handleDelete = async (id) => {
     if (!window.confirm("Apakah Anda yakin ingin menghapus pinjaman ini?")) {
       return;
     }
+    setIsDeleting(true);
     try {
       await deletePinjaman(id);
       refetch();
@@ -61,6 +71,8 @@ function PinjamanRouteComponent() {
     } catch (error) {
       toast.error("Gagal menghapus pinjaman.", {duration: 2000, closeButton: true});
       console.error("Error deleting pinjaman:", error);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -81,10 +93,10 @@ function PinjamanRouteComponent() {
       label: "Action",
       render: (row) => (
         <div>
-          <button onClick={() => handleEdit(row.id)} title="Edit">
+          <button onClick={() => handleEdit(row.id)} disabled={isUpdating} title="Edit">
             <FiEdit />
           </button>
-          <button onClick={() => handleDelete(row.id)} title="Hapus">
+          <button onClick={() => handleDelete(row.id)} disabled={isDeleting} title="Hapus">
             <FiTrash2 color="red" />
           </button>
           <button onClick={() => navigate({to: "/dashboard/pinjaman/" + row.id})} title="Detail">
@@ -102,10 +114,10 @@ function PinjamanRouteComponent() {
       <DataTable columns={columns} data={displayData} idKey="id" />
 
       <Modal isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} title="Buat Pinjaman">
-        <PinjamanForm onSubmit={handleCreate} />
+        <PinjamanForm onSubmit={handleCreate} isLoading={isCreating} />
       </Modal>
       <Modal isOpen={isEditOpen} onClose={() => setIsEditOpen(false)} title="Edit Pinjaman">
-        <PinjamanForm data={selectedRow} onSubmit={handleUpdate} />
+        <PinjamanForm data={selectedRow} onSubmit={handleUpdate} isLoading={isUpdating} />
       </Modal>
     </div>
   );

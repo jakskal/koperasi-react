@@ -19,10 +19,14 @@ function AnggotaRouteComponent() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [isCreating, setIsCreating] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const displayData = rawData?.map(mapListAnggota);
 
   const handleCreate = async (formData) => {
+    setIsCreating(true);
     try {
       await createAnggota(formData);
       setIsCreateOpen(false);
@@ -32,12 +36,15 @@ function AnggotaRouteComponent() {
     } catch (error) {
       toast.error("Gagal membuat anggota.", {duration: 2000, closeButton: true});
       console.error("Error creating anggota:", error);
+    } finally {
+      setIsCreating(false);
     }
   };
   const handleDelete = async (id) => {
     if (!window.confirm("Apakah Anda yakin ingin menghapus anggota ini?")) {
       return;
     }
+    setIsDeleting(true);
     try {
       await deleteAnggota(id);
       refetch();
@@ -45,6 +52,8 @@ function AnggotaRouteComponent() {
     } catch (error) {
       toast.error("Gagal menghapus anggota.", {duration: 2000, closeButton: true});
       console.error("Error deleting anggota:", error);
+    } finally {
+      setIsDeleting(false);
     }
   };
   const handleEdit = async (id) => {
@@ -54,6 +63,8 @@ function AnggotaRouteComponent() {
     setIsEditOpen(true);
   };
   const handleUpdate = async (formData) => {
+    setIsUpdating(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     try {
       await updateAnggota(formData);
       setIsEditOpen(false);
@@ -63,6 +74,8 @@ function AnggotaRouteComponent() {
     } catch (error) {
       toast.error("Gagal mengubah anggota.", {duration: 2000, closeButton: true});
       console.error("Error updating anggota:", error);
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -78,10 +91,10 @@ function AnggotaRouteComponent() {
       label: "Action",
       render: (row) => (
         <div>
-          <button onClick={() => handleEdit(row.id)} title="Edit Member">
+          <button onClick={() => handleEdit(row.id)} disabled={isUpdating} title="Edit Member">
             <FiEdit />
           </button>
-          <button onClick={() => handleDelete(row.id)} title="Hapus Member">
+          <button onClick={() => handleDelete(row.id)} disabled={isDeleting} title="Hapus Member">
             <FiTrash2 color="red" />
           </button>
         </div>
@@ -99,10 +112,10 @@ function AnggotaRouteComponent() {
       <DataTable columns={columns} data={displayData} idKey="id" />
 
       <Modal isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} title="Buat Anggota">
-        <AnggotaForm onSubmit={handleCreate} />
+        <AnggotaForm onSubmit={handleCreate} isLoading={isCreating} />
       </Modal>
       <Modal isOpen={isEditOpen} onClose={() => setIsEditOpen(false)} title="Edit Anggota">
-        <AnggotaForm data={selectedRow} onSubmit={handleUpdate} />
+        <AnggotaForm data={selectedRow} onSubmit={handleUpdate} isLoading={isUpdating} />
       </Modal>
     </div>
   );

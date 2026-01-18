@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {formatDate} from "../../utils/formatDate";
 
-export default function AnggotaForm({data, onSubmit}) {
+export default function AnggotaForm({data, onSubmit, isLoading = false}) {
   const generateRandomString = () => {
     return Math.random().toString(36).substring(2, 15);
   };
@@ -162,7 +162,9 @@ export default function AnggotaForm({data, onSubmit}) {
         onChange={(e) => handleNestedChange("attribute", e)}
         placeholder="Profesi"
       />
-      <button type="submit">simpan</button>
+      <button type="submit" disabled={isLoading}>
+        {isLoading ? "Menyimpan..." : "Simpan"}
+      </button>
     </form>
   );
 }

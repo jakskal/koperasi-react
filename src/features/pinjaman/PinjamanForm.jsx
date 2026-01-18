@@ -3,7 +3,7 @@ import {generateRandomString} from "../../services/seed";
 import {useSelectLoanTypes, useSelectUserOptions} from "./hooks";
 import {formatDate} from "../../utils/formatDate";
 
-export default function PinjamanForm({data, onSubmit}) {
+export default function PinjamanForm({data, onSubmit, isLoading = false}) {
   const dateNow = new Date().toISOString();
   let dateStr = formatDate(dateNow);
   const [form, setForm] = useState({
@@ -74,7 +74,9 @@ export default function PinjamanForm({data, onSubmit}) {
         value={form.transaction_date}
         onChange={handleChange}
       />
-      <button type="submit">Submit</button>
+      <button type="submit" disabled={isLoading}>
+        {isLoading ? "Menyimpan..." : "Submit"}
+      </button>
     </form>
   );
 }

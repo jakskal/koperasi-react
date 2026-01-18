@@ -3,7 +3,7 @@ import {formatDate} from "../../utils/formatDate";
 import {useState} from "react";
 import {useSelectSavingTypeOptions, useSelectUserOptions} from "./hooks";
 
-export default function SimpananForm({data, isEdit, onSubmit}) {
+export default function SimpananForm({data, isEdit, onSubmit, isLoading = false}) {
   const dateNow = new Date().toISOString();
   let dateStr = formatDate(dateNow);
   const [form, setForm] = useState({
@@ -76,7 +76,9 @@ export default function SimpananForm({data, isEdit, onSubmit}) {
           placeholder="catatan perubahan data"
         />
       )}
-      <button type="submit">{isEdit ? "Update" : "Buat"} Simpanan</button>
+      <button type="submit" disabled={isLoading}>
+        {isLoading ? "Menyimpan..." : `${isEdit ? "Update" : "Buat"} Simpanan`}
+      </button>
     </form>
   );
 }

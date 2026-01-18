@@ -20,6 +20,11 @@ function SimpananRouteComponent() {
 
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const handleEdit = async (id) => {
     const row = rawData.find((item) => item.id == id);
     setSelectedRow(row);
@@ -27,6 +32,7 @@ function SimpananRouteComponent() {
   };
 
   const handleUpdate = async (formData) => {
+    setIsUpdating(true);
     try {
       await updateSimpanan(formData);
       setIsEditOpen(false);
@@ -36,6 +42,8 @@ function SimpananRouteComponent() {
     } catch (error) {
       toast.error("Gagal mengubah simpanan.", {duration: 2000, closeButton: true});
       console.error("Error updating simpanan:", error);
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -43,6 +51,7 @@ function SimpananRouteComponent() {
     if (!window.confirm("Apakah Anda yakin ingin menghapus simpanan ini?")) {
       return;
     }
+    setIsDeleting(true);
     try {
       await deleteSimpanan(id);
       refetch();
@@ -50,12 +59,13 @@ function SimpananRouteComponent() {
     } catch (error) {
       toast.error("Gagal menghapus simpanan.", {duration: 2000, closeButton: true});
       console.error("Error deleting simpanan:", error);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
-
   const handleCreate = async (formData) => {
+    setIsCreating(true);
     try {
       await createSimpanan(formData);
       setIsCreateOpen(false);
@@ -64,6 +74,8 @@ function SimpananRouteComponent() {
     } catch (error) {
       toast.error("Gagal membuat simpanan.", {duration: 2000, closeButton: true});
       console.log("Error creating simpanan:", error);
+    } finally {
+      setIsCreating(false);
     }
   };
   if (isLoading) return <p>loading...</p>;
@@ -80,10 +92,10 @@ function SimpananRouteComponent() {
       label: "Action",
       render: (row) => (
         <div>
-          <button onClick={() => handleEdit(row.id)} title="Edit">
+          <button onClick={() => handleEdit(row.id)} disabled={isUpdating} title="Edit">
             <FiEdit />
           </button>
-          <button onClick={() => handleDelete(row.id)} title="Hapus">
+          <button onClick={() => handleDelete(row.id)} disabled={isDeleting} title="Hapus">
             <FiTrash2 color="red" />
           </button>
         </div>
@@ -99,11 +111,11 @@ function SimpananRouteComponent() {
       <DataTable columns={columns} data={displayData} idKey="id"></DataTable>
 
       <Modal isOpen={isEditOpen} onClose={() => setIsEditOpen(false)} title="Edit Simpanan">
-        <SimpananForm data={selectedRow} isEdit={true} onSubmit={handleUpdate} />
+        <SimpananForm data={selectedRow} isEdit={true} onSubmit={handleUpdate} isLoading={isUpdating} />
       </Modal>
 
       <Modal isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} title="Buat Simpanan">
-        <SimpananForm isEdit={false} onSubmit={handleCreate} />
+        <SimpananForm isEdit={false} onSubmit={handleCreate} isLoading={isCreating} />
       </Modal>
     </div>
   );
