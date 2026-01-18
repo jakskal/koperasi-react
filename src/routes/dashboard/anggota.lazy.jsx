@@ -28,9 +28,9 @@ function AnggotaRouteComponent() {
       setIsCreateOpen(false);
       refetch();
       let message = `Anggota ${formData.name} berhasil dibuat.`;
-      toast.success(message, {duration: 3000, closeButton: true});
+      toast.success(message, {duration: 2000, closeButton: true});
     } catch (error) {
-      toast.error("Gagal membuat anggota.", {duration: 3000, closeButton: true});
+      toast.error("Gagal membuat anggota.", {duration: 2000, closeButton: true});
       console.error("Error creating anggota:", error);
     }
   };
@@ -41,9 +41,9 @@ function AnggotaRouteComponent() {
     try {
       await deleteAnggota(id);
       refetch();
-      toast.success("Anggota berhasil dihapus.", {duration: 3000, closeButton: true});
+      toast.success("Anggota berhasil dihapus.", {duration: 2000, closeButton: true});
     } catch (error) {
-      toast.error("Gagal menghapus anggota.", {duration: 3000, closeButton: true});
+      toast.error("Gagal menghapus anggota.", {duration: 2000, closeButton: true});
       console.error("Error deleting anggota:", error);
     }
   };
@@ -59,9 +59,9 @@ function AnggotaRouteComponent() {
       setIsEditOpen(false);
       setSelectedRow(null);
       refetch();
-      toast.success("Anggota berhasil diubah.", {duration: 3000, closeButton: true});
+      toast.success("Anggota berhasil diubah.", {duration: 2000, closeButton: true});
     } catch (error) {
-      toast.error("Gagal mengubah anggota.", {duration: 3000, closeButton: true});
+      toast.error("Gagal mengubah anggota.", {duration: 2000, closeButton: true});
       console.error("Error updating anggota:", error);
     }
   };

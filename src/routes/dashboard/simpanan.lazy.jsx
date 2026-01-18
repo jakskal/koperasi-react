@@ -32,20 +32,23 @@ function SimpananRouteComponent() {
       setIsEditOpen(false);
       setSelectedRow(null);
       refetch();
-      toast.success("Simpanan berhasil diubah.", { duration: 3000, closeButton: true });
+      toast.success("Simpanan berhasil diubah.", {duration: 2000, closeButton: true});
     } catch (error) {
-      toast.error("Gagal mengubah simpanan.", { duration: 3000, closeButton: true });
+      toast.error("Gagal mengubah simpanan.", {duration: 2000, closeButton: true});
       console.error("Error updating simpanan:", error);
     }
   };
 
   const handleDelete = async (id) => {
+    if (!window.confirm("Apakah Anda yakin ingin menghapus simpanan ini?")) {
+      return;
+    }
     try {
       await deleteSimpanan(id);
       refetch();
-      toast.success("Simpanan berhasil dihapus.", { duration: 3000, closeButton: true });
+      toast.success("Simpanan berhasil dihapus.", {duration: 2000, closeButton: true});
     } catch (error) {
-      toast.error("Gagal menghapus simpanan.", { duration: 3000, closeButton: true });
+      toast.error("Gagal menghapus simpanan.", {duration: 2000, closeButton: true});
       console.error("Error deleting simpanan:", error);
     }
   };
@@ -57,9 +60,9 @@ function SimpananRouteComponent() {
       await createSimpanan(formData);
       setIsCreateOpen(false);
       refetch();
-      toast.success("Simpanan berhasil dibuat.", { duration: 3000, closeButton: true });
+      toast.success("Simpanan berhasil dibuat.", {duration: 2000, closeButton: true});
     } catch (error) {
-      toast.error("Gagal membuat simpanan.", { duration: 3000, closeButton: true });
+      toast.error("Gagal membuat simpanan.", {duration: 2000, closeButton: true});
       console.log("Error creating simpanan:", error);
     }
   };

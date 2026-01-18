@@ -27,9 +27,9 @@ function PinjamanRouteComponent() {
       await createPinjaman(formData);
       setIsCreateOpen(false);
       refetch();
-      toast.success("Pinjaman berhasil dibuat.", { duration: 3000, closeButton: true });
+      toast.success("Pinjaman berhasil dibuat.", {duration: 2000, closeButton: true});
     } catch (error) {
-      toast.error("Gagal membuat pinjaman.", { duration: 3000, closeButton: true });
+      toast.error("Gagal membuat pinjaman.", {duration: 2000, closeButton: true});
       console.error("Error creating pinjaman:", error);
     }
   };
@@ -44,19 +44,22 @@ function PinjamanRouteComponent() {
       setIsEditOpen(false);
       setSelectedRow(null);
       refetch();
-      toast.success("Pinjaman berhasil diubah.", { duration: 3000, closeButton: true });
+      toast.success("Pinjaman berhasil diubah.", {duration: 2000, closeButton: true});
     } catch (error) {
-      toast.error("Gagal mengubah pinjaman.", { duration: 3000, closeButton: true });
+      toast.error("Gagal mengubah pinjaman.", {duration: 2000, closeButton: true});
       console.error("Error updating pinjaman:", error);
     }
   };
   const handleDelete = async (id) => {
+    if (!window.confirm("Apakah Anda yakin ingin menghapus pinjaman ini?")) {
+      return;
+    }
     try {
       await deletePinjaman(id);
       refetch();
-      toast.success("Pinjaman berhasil dihapus.", { duration: 3000, closeButton: true });
+      toast.success("Pinjaman berhasil dihapus.", {duration: 2000, closeButton: true});
     } catch (error) {
-      toast.error("Gagal menghapus pinjaman.", { duration: 3000, closeButton: true });
+      toast.error("Gagal menghapus pinjaman.", {duration: 2000, closeButton: true});
       console.error("Error deleting pinjaman:", error);
     }
   };

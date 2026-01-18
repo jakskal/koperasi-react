@@ -18,7 +18,7 @@ export default function PinjamanForm({data, onSubmit}) {
   });
 
   const {data: members} = useSelectUserOptions();
-  const {data: loanTypes} = useSelectLoanTypes();
+  const {data: loanTypes} = useSelectLoanTypes({status: "ACTIVE"});
 
   const handleChange = (e) => {
     const {name, value} = e.target;

@@ -3,6 +3,7 @@ import {Outlet} from "@tanstack/react-router";
 import Header from "../component/Header";
 import SideBar from "../component/SideBar";
 import "../styles/dashboard.css";
+import ErrorBoundary from "../component/ErrorBoundary/ErrorBoundary";
 
 export const Route = createFileRoute("/dashboard")({
   beforeLoad: async () => {
@@ -19,7 +20,9 @@ export const Route = createFileRoute("/dashboard")({
         <SideBar />
       </div>
       <div className="dashboard__content">
-        <Outlet />
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
       </div>
     </div>
   ),

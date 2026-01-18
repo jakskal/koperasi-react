@@ -9,10 +9,10 @@ export function useListPinjaman() {
   });
 }
 
-export function useSelectLoanTypes() {
+export function useSelectLoanTypes(params) {
   return useQuery({
     queryKey: ["loanTypes"],
-    queryFn: fetchLoanTypes,
+    queryFn: () => fetchLoanTypes(params),
   });
 }
 

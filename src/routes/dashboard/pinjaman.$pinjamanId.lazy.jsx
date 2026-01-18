@@ -1,4 +1,4 @@
-import {createLazyFileRoute} from "@tanstack/react-router";
+import {createLazyFileRoute, useNavigate} from "@tanstack/react-router";
 import {usePinjamanDetail} from "../../features/pinjaman/hooks";
 import {useInstallmentByLoanId as useInstallmentsByLoanId} from "../../features/installment/hooks";
 import {FiArrowLeft} from "react-icons/fi";
@@ -33,6 +33,8 @@ function RouteComponent() {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [selectedInstallment, setSelectedInstallment] = useState(null);
 
+  const navigate = useNavigate();
+
   function openDetailsModal(installment) {
     setSelectedInstallment(installment);
     setIsDetailsOpen(true);
@@ -49,9 +51,9 @@ function RouteComponent() {
       await createInstallment(formData);
       setIsCreateOpen(false);
       refetchInstallments();
-      toast.success("Cicilan berhasil dibuat.", { duration: 3000, closeButton: true });
+      toast.success("Cicilan berhasil dibuat.", {duration: 2000, closeButton: true});
     } catch (error) {
-      toast.error("Gagal membuat cicilan.", { duration: 3000, closeButton: true });
+      toast.error("Gagal membuat cicilan.", {duration: 2000, closeButton: true});
       console.error("Error creating installment:", error);
     }
   }
@@ -63,9 +65,12 @@ function RouteComponent() {
       // Refetch installments data
       refetchInstallments();
       setIsMarkingPaidOpen(false);
-      toast.success("Cicilan berhasil ditandai sebagai lunas.", { duration: 3000, closeButton: true });
+      toast.success("Cicilan berhasil ditandai sebagai lunas.", {
+        duration: 2000,
+        closeButton: true,
+      });
     } catch (error) {
-      toast.error("Gagal menandai cicilan sebagai lunas.", { duration: 3000, closeButton: true });
+      toast.error("Gagal menandai cicilan sebagai lunas.", {duration: 2000, closeButton: true});
       console.error("Error marking installment as paid:", error);
     }
   }
@@ -74,9 +79,9 @@ function RouteComponent() {
     try {
       await markInstallmentAsCancelled(installmentId, notes);
       refetchInstallments();
-      toast.success("Cicilan berhasil dibatalkan.", { duration: 3000, closeButton: true });
+      toast.success("Cicilan berhasil dibatalkan.", {duration: 2000, closeButton: true});
     } catch (error) {
-      toast.error("Gagal membatalkan cicilan.", { duration: 3000, closeButton: true });
+      toast.error("Gagal membatalkan cicilan.", {duration: 2000, closeButton: true});
       console.error("Error marking installment as cancelled:", error);
     }
   }
@@ -172,7 +177,7 @@ function RouteComponent() {
   return (
     <div>
       <button
-        onClick={() => history.back()}
+        onClick={() => navigate({to: "/dashboard/pinjaman"})}
         style={{marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.5rem"}}
       >
         <FiArrowLeft /> Back to List

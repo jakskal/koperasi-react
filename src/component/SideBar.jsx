@@ -42,6 +42,15 @@ export default function SideBar() {
           <Link to="/dashboard/pinjaman">Pinjaman</Link>
         </li>
         <li
+          key="tipe-pinjaman"
+          className={selectedMenu == "tipe-pinjaman" ? selectedClass : ""}
+          onClick={() => {
+            handleClick("tipe-pinjaman");
+          }}
+        >
+          <Link to="/dashboard/tipe-pinjaman">Tipe Pinjaman</Link>
+        </li>
+        <li
           key="simpanan"
           className={selectedMenu == "simpanan" ? selectedClass : ""}
           onClick={() => {
@@ -49,6 +58,15 @@ export default function SideBar() {
           }}
         >
           <Link to="/dashboard/simpanan">Simpanan</Link>
+        </li>
+        <li
+          key="tipe-simpanan"
+          className={selectedMenu == "tipe-simpanan" ? selectedClass : ""}
+          onClick={() => {
+            handleClick("tipe-simpanan");
+          }}
+        >
+          <Link to="/dashboard/tipe-simpanan">Tipe Simpanan</Link>
         </li>
       </ul>
     </div>
