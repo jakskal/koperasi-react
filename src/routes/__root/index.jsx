@@ -6,8 +6,11 @@ export const Route = createFileRoute("/__root/")({
 
 function RouteComponent() {
   return (
-    <div>
-      <Link to="/login">To login page</Link>
+    <div style={{display: "flex", flexDirection: "column", flexWrap: "wrap", alignItems: "center"}}>
+      <h1>Welcome</h1>
+      <Link style={{color: "black", border: "2px solid black"}} to="/login">
+        To login page
+      </Link>
     </div>
   );
 }
