@@ -3,6 +3,11 @@
 .tipe-pinjaman__main {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: stretch;
   gap: 16px;
+  width: 100%;
+}
+
+.tipe-pinjaman__main > button {
+  align-self: flex-start;
 }

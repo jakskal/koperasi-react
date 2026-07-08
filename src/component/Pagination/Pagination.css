@@ -1,28 +1,21 @@
 .pagination {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-  padding: 1rem 0;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 0.75rem 0 0;
 }
 
 .pagination button {
-  padding: 8px 16px;
-  border: 1px solid #cbd5e0;
-  border-radius: 4px;
-  background-color: #ffffff;
-  color: #2d3748;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  min-width: 86px;
 }
 
 .pagination button:hover:not(:disabled) {
-  border-color: #4299e1;
-  color: #4299e1;
-  background-color: #ebf8ff;
+  border-color: var(--windsurfing);
+  color: var(--windsurfing);
+  background-color: #eff6ff;
 }
 
 .pagination button:active:not(:disabled) {
@@ -32,40 +25,45 @@
 .pagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background-color: #f9fafb;
+  background-color: var(--surface-muted);
 }
 
 .pagination__info {
-  min-width: 240px;
+  min-width: 220px;
   text-align: center;
-  font-size: 14px;
-  color: #2d3748;
+  font-size: 0.875rem;
+  color: var(--charcoal);
   font-weight: 500;
-  background-color: #f5f7fa;
-  padding: 8px 16px;
-  border-radius: 4px;
-  border: 1px solid #e2e8f0;
+  background-color: var(--surface-muted);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
 }
 
 .pagination__page-size {
-  padding: 8px 12px;
-  border: 1px solid #cbd5e0;
-  border-radius: 4px;
-  background-color: #ffffff;
-  color: #2d3748;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  width: auto;
+  min-width: 142px;
 }
 
 .pagination__page-size:hover {
-  border-color: #4299e1;
-  background-color: #ebf8ff;
+  border-color: var(--windsurfing);
+  background-color: #eff6ff;
 }
 
 .pagination__page-size:focus {
   outline: none;
-  border-color: #4299e1;
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+  border-color: var(--windsurfing);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+}
+
+@media (max-width: 640px) {
+  .pagination {
+    justify-content: stretch;
+  }
+
+  .pagination button,
+  .pagination__info,
+  .pagination__page-size {
+    width: 100%;
+  }
 }

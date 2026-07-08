@@ -3,6 +3,11 @@
 .tipe-simpanan__main {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: stretch;
   gap: 16px;
+  width: 100%;
+}
+
+.tipe-simpanan__main > button {
+  align-self: flex-start;
 }

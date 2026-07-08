@@ -9,7 +9,9 @@ export default function Modal({isOpen, onClose, title, children}) {
       <div className="modal__content" onClick={(e) => e.stopPropagation()}>
         <div className="modal__header">
           <h2>{title}</h2>
-          <button onClick={onClose}>x</button>
+          <button type="button" onClick={onClose} aria-label="Tutup modal">
+            ×
+          </button>
         </div>
         <div className="modal__body">{children}</div>
       </div>

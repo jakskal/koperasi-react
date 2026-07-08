@@ -1,24 +1,29 @@
 @import url(../../styles/index.css);
 
-.searc-bar {
-  width: auto;
-  margin-bottom: 1.5rem;
+.search-bar {
+  width: min(360px, 100%);
 }
 
-.searc-bar__input {
-  width: auto;
-  padding: 10px 16px;
-  border: 1px solid var(--charcoal);
-  font-size: 14px;
-  transition: all 0.2s ease;
+.search-bar__input {
+  width: 100%;
+  min-height: 38px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background-color: var(--white);
+  color: var(--charcoal);
+  font-size: 0.875rem;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.searc-bar__input:focus {
+.search-bar__input:focus {
   outline: none;
-  border-color: #4299e1;
-  box-shadow: 0 0 0 3px rgba(66, 154, 225, 0.1);
+  border-color: var(--windsurfing);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
 }
 
 .search-bar__input::placeholder {
-  color: #a0aec0;
+  color: #9ca3af;
 }

@@ -1,32 +1,41 @@
 @import url("../../styles/index.css");
 
-.table__main {
+.table__wrapper {
   width: 100%;
-  border-collapse: collapse;
-  background-color: #ffffff;
-  border-radius: 8px;
+  max-width: 100%;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
 }
 
-/* Header styling */
+.table__main {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+  background-color: var(--surface);
+}
+
 .table__main thead {
-  background-color: #f5f7fa;
-  border-bottom: 2px solid #e2e8f0;
+  background-color: var(--surface-muted);
+  border-bottom: 1px solid var(--border);
 }
 
 .table__main th {
-  padding: 16px;
+  padding: 12px 14px;
   text-align: left;
   font-weight: 600;
-  font-size: 14px;
-  color: #2d3748;
-  letter-spacing: 0.5px;
+  font-size: 0.78rem;
+  color: var(--gray);
+  letter-spacing: 0;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-/* Body styling */
 .table__main tbody tr {
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--border);
   transition: background-color 0.2s ease;
 }
 
@@ -35,35 +44,39 @@
 }
 
 .table__main tbody tr:hover {
-  background-color: #f9fafb;
+  background-color: var(--surface-muted);
 }
 
 .table__main td {
-  padding: 16px;
-  font-size: 14px;
-  color: #4a5568;
+  padding: 13px 14px;
+  color: var(--charcoal);
+  font-size: 0.875rem;
+  vertical-align: middle;
+  white-space: nowrap;
 }
 
-/* Action buttons styling */
 .table__main button {
-  padding: 6px 12px;
-  margin: 0 4px;
-  border: 1px solid #cbd5e0;
-  border-radius: 4px;
-  background-color: #ffffff;
-  color: #2d3748;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  min-width: 34px;
+  min-height: 34px;
+  padding: 0.38rem 0.55rem;
+  margin: 0 3px 3px 0;
+  border-color: var(--border-strong);
+  background-color: var(--surface);
+  font-size: 0.8rem;
 }
 
 .table__main button:hover {
-  border-color: #4299e1;
-  color: #4299e1;
-  background-color: #ebf8ff;
+  border-color: var(--windsurfing);
+  color: var(--windsurfing);
+  background-color: #eff6ff;
 }
 
 .table__main button:active {
   transform: scale(0.98);
+}
+
+.table__empty {
+  color: var(--gray);
+  padding: 28px 14px;
+  text-align: center;
 }

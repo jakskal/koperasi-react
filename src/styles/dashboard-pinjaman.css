@@ -3,6 +3,20 @@
 .main__pinjaman {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: stretch;
   gap: 16px;
+  width: 100%;
+}
+
+.main__pinjaman > button,
+.main__pinjaman > .search-bar {
+  align-self: flex-start;
+}
+
+.main__pinjaman > button {
+  margin-bottom: -2px;
+}
+
+.main__pinjaman > .table__wrapper {
+  margin-top: 2px;
 }
