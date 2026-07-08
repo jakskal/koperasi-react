@@ -9,5 +9,6 @@ export function mapListPinjaman(data) {
     installment_qty_target: `${data.installment_qty_target} bulan`,
     total_ratio_amount: `Rp ${parseInt(data.total_ratio_amount).toLocaleString("id-ID")}`,
     transaction_date: new Date(data.transaction_date).toLocaleDateString("id-ID"),
+    member_id: data.user.attribute.member_id,
   };
 }

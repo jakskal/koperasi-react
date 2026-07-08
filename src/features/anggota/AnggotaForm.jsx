@@ -13,10 +13,10 @@ export default function AnggotaForm({data, onSubmit, isLoading = false}) {
   const dateNow = new Date().toISOString();
   let dateStr = formatDate(dateNow);
   const formData = {
-    name: generateRandomString(),
+    name: "anggota ke " + Math.floor(Math.random() * 1000),
     email: generateRandomString() + "@yopmail.com",
     phone: 62881092839,
-    password: generateRandomString(),
+    password: "password",
     status_id: 1,
     role_id: 3,
     attribute: {

@@ -16,7 +16,7 @@ export const Route = createLazyFileRoute("/dashboard/simpanan")({
 
 function SimpananRouteComponent() {
   const {data: rawData, isLoading, refetch} = useListSimpanan();
-  const displayData = rawData?.map(mapListSimpanan);
+  const displayData = rawData?.map(mapListSimpanan) || [];
 
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -111,7 +111,12 @@ function SimpananRouteComponent() {
       <DataTable columns={columns} data={displayData} idKey="id"></DataTable>
 
       <Modal isOpen={isEditOpen} onClose={() => setIsEditOpen(false)} title="Edit Simpanan">
-        <SimpananForm data={selectedRow} isEdit={true} onSubmit={handleUpdate} isLoading={isUpdating} />
+        <SimpananForm
+          data={selectedRow}
+          isEdit={true}
+          onSubmit={handleUpdate}
+          isLoading={isUpdating}
+        />
       </Modal>
 
       <Modal isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} title="Buat Simpanan">

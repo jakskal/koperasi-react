@@ -1,0 +1,24 @@
+@import url(../../styles/index.css);
+
+.searc-bar {
+  width: auto;
+  margin-bottom: 1.5rem;
+}
+
+.searc-bar__input {
+  width: auto;
+  padding: 10px 16px;
+  border: 1px solid var(--charcoal);
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.searc-bar__input:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 154, 225, 0.1);
+}
+
+.search-bar__input::placeholder {
+  color: #a0aec0;
+}

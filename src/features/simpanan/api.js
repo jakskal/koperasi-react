@@ -3,7 +3,7 @@ import {fetchAPI} from "../../services/http";
 export async function fetchListSimpanan() {
   const res = await fetchAPI("/v1/admin/saving");
   console.log("res", res);
-  return res.data;
+  return res.data || [];
 }
 
 export async function createSimpanan(data) {

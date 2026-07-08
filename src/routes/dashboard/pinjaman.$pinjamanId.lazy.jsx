@@ -51,6 +51,7 @@ function RouteComponent() {
       await createInstallment(formData);
       setIsCreateOpen(false);
       refetchInstallments();
+      refetch();
       toast.success("Cicilan berhasil dibuat.", {duration: 2000, closeButton: true});
     } catch (error) {
       toast.error("Gagal membuat cicilan.", {duration: 2000, closeButton: true});
@@ -186,26 +187,77 @@ function RouteComponent() {
         <h3>Detail Pinjaman #{pinjamanId}</h3>
       </div>
       <div className="pinjaman__detail--info">
-        <p>Nama Peminjam: {data.user.name}</p>
-        <p>Tujuan Pinjaman: {data.name}</p>
-        <p>Tipe Pinjaman: {data.loan_type.name}</p>
-        <p>Cicilan Target: {data.installment_qty_target}x</p>
-        <p>
-          Tanggal Transaksi:{" "}
-          {new Date(data.transaction_date).toLocaleDateString("id-ID", {
-            day: "2-digit",
-            month: "long",
-            year: "numeric",
-          })}
-        </p>
-        <p>
-          Pinjaman: Rp {parseInt(data.amount - data.total_ratio_amount).toLocaleString("id-ID")}
-        </p>
-        <p>Bagi Hasil: Rp {parseInt(data.total_ratio_amount).toLocaleString("id-ID")}</p>
-        <p>Total Pinjaman: Rp {parseInt(data.amount).toLocaleString("id-ID")}</p>
+        <div className="pinjaman-detail__field">
+          <span className="pinjaman-detail__field-label">Nama Peminjam: </span>
+          <span className="pinjaman-detail__field-value">{data.data.user.name}</span>
+        </div>
+        <div className="pinjaman-detail__field">
+          <span className="pinjaman-detail__field-label">Tujuan Pinjaman:</span>
+          <span className="pinjaman-detail__field-value">{data.data.name}</span>
+        </div>
+        <div className="pinjaman-detail__field">
+          <span className="pinjaman-detail__field-label">Tipe Pinjaman:</span>
+          <span className="pinjaman-detail__field-value">{data.data.loan_type.name}</span>
+        </div>
+        <div className="pinjaman-detail__field">
+          <span className="pinjaman-detail__field-label">Cicilan Target:</span>
+          <span className="pinjaman-detail__field-value">{data.data.installment_qty_target}x</span>
+        </div>
+        <div className="pinjaman-detail__field">
+          <span className="pinjaman-detail__field-label">Tanggal Transaksi:</span>
+          <span className="pinjaman-detail__field-value">
+            {new Date(data.data.transaction_date).toLocaleDateString("id-ID", {
+              day: "2-digit",
+              month: "long",
+              year: "numeric",
+            })}
+          </span>
+        </div>
+        <div className="pinjaman-detail__field">
+          <span className="pinjaman-detail__field-label">Pinjaman:</span>
+          <span className="pinjaman-detail__field-value">
+            Rp {parseInt(data.data.amount - data.data.total_ratio_amount).toLocaleString("id-ID")}
+          </span>
+        </div>
+        <div className="pinjaman-detail__field">
+          <span className="pinjaman-detail__field-label">Bagi Hasil:</span>
+          <span className="pinjaman-detail__field-value">
+            Rp {parseInt(data.data.total_ratio_amount).toLocaleString("id-ID")}
+          </span>
+        </div>
+        <div className="pinjaman-detail__field">
+          <span className="pinjaman-detail__field-label">Total Pinjaman:</span>
+          <span className="pinjaman-detail__field-value">
+            Rp {parseInt(data.data.amount).toLocaleString("id-ID")}
+          </span>
+        </div>
+        <div className="pinjaman-detail__field">
+          <span className="pinjaman-detail__field-label">Pinjaman Terbayar:</span>
+          <span className="pinjaman-detail__field-value">
+            Rp {parseInt(data.data.total_principal_paid).toLocaleString("id-ID")}
+          </span>
+        </div>
+        <div className="pinjaman-detail__field">
+          <span className="pinjaman-detail__field-label">Bagi Hasil Terbayar:</span>
+          <span className="pinjaman-detail__field-value">
+            Rp {parseInt(data.data.total_interest_paid).toLocaleString("id-ID")}
+          </span>
+        </div>
+        <div className="pinjaman-detail__field">
+          <span className="pinjaman-detail__field-label">Sisa Pinjaman Belum Terbayar:</span>
+          <span className="pinjaman-detail__field-value">
+            Rp {parseInt(data.data.remaining_principal).toLocaleString("id-ID")}
+          </span>
+        </div>
+        <div className="pinjaman-detail__field">
+          <span className="pinjaman-detail__field-label">Sisa Bagi Hasil Belum Terbayar:</span>
+          <span className="pinjaman-detail__field-value">
+            Rp {parseInt(data.data.remaining_interest).toLocaleString("id-ID")}
+          </span>
+        </div>
       </div>
       <div className="pinjaman__detail--header">
-        <h3>Cicilan {data.name}</h3>
+        <h3>Cicilan {data.data.name}</h3>
         <button className="pinjaman__button--add" onClick={() => setIsCreateOpen(true)}>
           + Bayar Cicilan
         </button>

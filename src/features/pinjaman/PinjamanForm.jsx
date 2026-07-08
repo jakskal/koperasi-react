@@ -17,8 +17,9 @@ export default function PinjamanForm({data, onSubmit, isLoading = false}) {
     transaction_date: data?.transaction_date ? formatDate(data.transaction_date) : dateStr,
   });
 
-  const {data: members} = useSelectUserOptions();
+  const {data: members} = useSelectUserOptions(100);
   const {data: loanTypes} = useSelectLoanTypes({status: "ACTIVE"});
+  console.log("members list", members);
 
   const handleChange = (e) => {
     const {name, value} = e.target;

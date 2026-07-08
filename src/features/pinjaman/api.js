@@ -1,8 +1,29 @@
 import {fetchAPI} from "../../services/http";
 
-export async function fetchListPinjaman() {
-  const res = await fetchAPI("/v1/admin/loan");
-  return res.data;
+export async function fetchListPinjaman(params = {}) {
+  const {
+    page = 1,
+    pageSize = 2,
+    keyWord = "",
+    loanType = "",
+    status = "",
+    sortBy = "transaction_date",
+    sortOrder = "desc",
+  } = params;
+  console.log("the params", params);
+
+  const queryParams = new URLSearchParams();
+  queryParams.append("page", page);
+  if (keyWord) queryParams.append("keyword", keyWord);
+  if (loanType) queryParams.append("loan_type_id", loanType);
+  if (status) queryParams.append("status", status);
+  if (sortBy) queryParams.append("sort_by", sortBy);
+  if (sortOrder) queryParams.append("sort_order", sortOrder);
+  if (pageSize) queryParams.append("page_size", pageSize);
+  console.log("query param", queryParams);
+
+  const res = await fetchAPI(`/v1/admin/loan?${queryParams.toString()}`);
+  return res || [];
 }
 
 export async function fetchPinjamanDetail(id) {

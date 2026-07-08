@@ -6,16 +6,26 @@ import {FiEdit, FiTrash2, FiEye} from "react-icons/fi";
 import PinjamanForm from "../../features/pinjaman/PinjamanForm";
 import {useState} from "react";
 import Modal from "../../modal/Modal";
+import Pagination from "../../component/Pagination/Pagination";
 import "../../styles/dashboard-pinjaman.css";
 import {createPinjaman, deletePinjaman, updatePinjaman} from "../../features/pinjaman/api";
 import {toast} from "sonner";
+import SearchBar from "../../component/SearchBar/SearchBar";
 
 export const Route = createLazyFileRoute("/dashboard/pinjaman")({
   component: PinjamanRouteComponent,
 });
 
 function PinjamanRouteComponent() {
-  const {data: rawData, isLoading, refetch} = useListPinjaman();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [pageSize, setPageSize] = useState(5);
+
+  const {
+    data: responseData,
+    isLoading,
+    refetch,
+  } = useListPinjaman({page: currentPage, pageSize: pageSize, keyWord: searchKeyword});
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -23,7 +33,36 @@ function PinjamanRouteComponent() {
   const [isUpdating, setIsUpdating] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  const rawData = Array.isArray(responseData) ? responseData : responseData?.data || [];
+  const pageInfo = responseData?.page_info || {page: 1, page_size: 15, count: 0};
+  console.log("pageinfo", pageInfo);
+  console.log("responsedata", responseData);
   const displayData = rawData?.map(mapListPinjaman);
+  const totalPages = Math.ceil(pageInfo.count / pageInfo.page_size);
+
+  const handleSearch = (term) => {
+    console.log("term", term);
+    setCurrentPage(1);
+    setSearchKeyword(term);
+    // Debounce - only call API after 300ms of no typing
+    const timer = setTimeout(() => {
+      // API call happens here via queryKey change
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
+  const handlePageSizeChange = (newSize) => {
+    setPageSize(newSize);
+    setCurrentPage(1);
+    refetch();
+  };
 
   const handleCreate = async (formData) => {
     setIsCreating(true);
@@ -81,6 +120,10 @@ function PinjamanRouteComponent() {
 
   const columns = [
     {key: "id", label: "ID Pinjaman"},
+    {
+      key: "member_id",
+      label: "Nomor Anggota",
+    },
     {key: "user_name", label: "Nama Anggota"},
     {key: "name", label: "Tujuan Pinjaman"},
     {key: "amount", label: "Jumlah Pinjaman"},
@@ -111,7 +154,16 @@ function PinjamanRouteComponent() {
       <button className="button__pinjaman--add" onClick={() => setIsCreateOpen(true)}>
         + Buat Pinjaman
       </button>
+      <SearchBar placeholder="Cari pinjaman.." value={searchKeyword} onChange={handleSearch} />
       <DataTable columns={columns} data={displayData} idKey="id" />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalItems={pageInfo.count}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+        onPageSizeChange={handlePageSizeChange}
+      />
 
       <Modal isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} title="Buat Pinjaman">
         <PinjamanForm onSubmit={handleCreate} isLoading={isCreating} />

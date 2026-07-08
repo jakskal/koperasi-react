@@ -16,9 +16,9 @@ export function useSelectSavingTypeOptions() {
   });
 }
 
-export function useSelectUserOptions() {
+export function useSelectUserOptions(page_size = 200) {
   return useQuery({
-    queryKey: ["userOptions"],
-    queryFn: fetchUserOptions,
+    queryKey: ["userOptions", page_size],
+    queryFn: () => fetchUserOptions({page_size}),
   });
 }
