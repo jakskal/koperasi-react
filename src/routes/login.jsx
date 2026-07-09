@@ -62,7 +62,12 @@ function RouteComponent() {
   return (
     <div className="login__body">
       <div className="login__content">
-        <h1 className="login__header">Koperasi</h1>
+        <div className="login__brand">
+          <div>
+            <div className="login__eyebrow">Beta Internal</div>
+            <h1 className="login__header">Koperasi</h1>
+          </div>
+        </div>
         <form className="login__form" onSubmit={handleLogin}>
           <label>
             Email

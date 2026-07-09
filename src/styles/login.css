@@ -1,15 +1,13 @@
 @import url(./index.css);
 
 .login__body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 100vw;
-  height: 100vh;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 100vh;
   padding: 24px;
   background:
-    linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(31, 41, 55, 0.92)),
+    linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(31, 41, 55, 0.94)),
     var(--charcoal);
   color: var(--charcoal);
 }
@@ -17,13 +15,13 @@
 .login__form {
   display: grid;
   gap: 14px;
-  width: min(360px, 100%);
-  padding: 24px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background-color: var(--white);
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
   color: var(--charcoal);
-  box-shadow: var(--shadow-md);
+  box-shadow: none;
 }
 
 .login__form br {
@@ -31,8 +29,28 @@
 }
 
 .login__content {
-  width: min(420px, 100%);
-  text-align: center;
+  width: min(380px, 100%);
+  padding: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 24px 56px rgba(15, 23, 42, 0.28);
+  text-align: left;
+}
+
+.login__brand {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.login__eyebrow {
+  margin-bottom: 3px;
+  color: var(--gray);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 .login__form label {
@@ -46,15 +64,16 @@
 }
 
 .login__header {
-  margin-bottom: 16px;
-  margin-top: 0px;
-  color: var(--white);
-  font-size: 2.4rem;
+  margin: 0;
+  color: var(--charcoal);
+  font-size: 1.65rem;
   font-weight: 800;
   letter-spacing: 0;
+  line-height: 1.1;
 }
 
 .login__button {
+  width: 100%;
   border-color: var(--windsurfing);
   background-color: var(--windsurfing);
   color: var(--white);

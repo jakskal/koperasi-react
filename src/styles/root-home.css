@@ -1,0 +1,121 @@
+.root-home {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(31, 41, 55, 0.94)),
+    var(--charcoal);
+}
+
+.root-home__main {
+  width: min(440px, 100%);
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 24px 56px rgba(15, 23, 42, 0.28);
+  text-align: left;
+}
+
+.root-home__top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.root-home__badge {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0 10px;
+  background: var(--surface-muted);
+  color: var(--gray);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.root-home__copy {
+  margin-bottom: 24px;
+}
+
+.root-home h1 {
+  margin-bottom: 8px;
+  color: var(--charcoal);
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.root-home p {
+  max-width: 28rem;
+  margin-bottom: 0;
+  color: var(--gray);
+  font-size: 0.95rem;
+}
+
+.root-home__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.root-home__actions a {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.95rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.root-home__actions .button-primary {
+  border-color: var(--windsurfing);
+}
+
+.root-home__arrow {
+  margin-left: 2px;
+}
+
+@media (max-width: 420px) {
+  .root-home {
+    padding: 16px;
+  }
+
+  .root-home__main {
+    padding: 22px;
+  }
+
+  .root-home__top {
+    margin-bottom: 24px;
+  }
+
+  .root-home h1 {
+    font-size: 1.9rem;
+  }
+
+  .root-home__actions {
+    display: grid;
+  }
+
+  .root-home__actions a {
+    width: 100%;
+  }
+}
