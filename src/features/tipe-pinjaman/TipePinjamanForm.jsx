@@ -20,12 +20,11 @@ export default function TipePinjamanForm({data, onSubmit}) {
   return (
     <form onSubmit={handleSubmit}>
       <label>
-        Nama Tipe Pinjaman:
+        Nama Tipe Pinjaman
         <input type="text" name="name" value={formData.name} onChange={handleChange} />
       </label>
-      <br />
       <label>
-        Bagi hasil (%):
+        Bagi Hasil (%)
         <input
           type="number"
           name="ratio_percentage"
@@ -33,7 +32,6 @@ export default function TipePinjamanForm({data, onSubmit}) {
           onChange={handleChange}
         />
       </label>
-      <br />
       <button type="submit">Simpan</button>
     </form>
   );

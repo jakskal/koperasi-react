@@ -6,7 +6,6 @@ export async function fetchListTipePinjaman() {
 }
 
 export async function createTipePinjaman(data) {
-  console.log("API data:", data);
   const payload = {
     name: data.name,
     ratio_percentage: parseFloat(data.ratio_percentage),

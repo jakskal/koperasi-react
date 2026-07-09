@@ -10,6 +10,7 @@ export async function login(email, password) {
 
 export async function logout() {
   localStorage.removeItem("token");
+  localStorage.removeItem("authUser");
 }
 
 export function setToken(token) {

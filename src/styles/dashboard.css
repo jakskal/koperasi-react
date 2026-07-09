@@ -9,6 +9,10 @@
   background-color: var(--dashboard-content-bkg);
 }
 
+.dashboard--no-sidebar {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .dashboard__sidebar {
   grid-area: 1 / 1 / 3 / 2;
   background-color: var(--sidebar-bkg);
@@ -52,6 +56,10 @@
   min-width: 0;
 }
 
+.dashboard--no-sidebar .dashboard__header {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
 .dashboard__content {
   grid-area: 2 / 2 / 3 / 3;
   background-color: var(--dashboard-content-bkg);
@@ -62,6 +70,10 @@
   min-width: 0;
   overflow: auto;
   padding: 24px;
+}
+
+.dashboard--no-sidebar .dashboard__content {
+  grid-area: 2 / 1 / 3 / 2;
 }
 
 @media (max-width: 900px) {

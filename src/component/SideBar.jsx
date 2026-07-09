@@ -1,8 +1,12 @@
 import {Link, useNavigate} from "@tanstack/react-router";
+import {useContext} from "react";
 import {useState} from "react";
+import {AuthContext} from "../context";
 
 export default function SideBar() {
+  const {user} = useContext(AuthContext);
   const [selectedMenu, setSelectedMenu] = useState(null);
+  const isAdminRole = [0, 1, 2].includes(user?.role_id);
 
   const handleClick = (key) => {
     setSelectedMenu(key);
@@ -11,6 +15,10 @@ export default function SideBar() {
   const navigate = useNavigate();
 
   const selectedClass = "dashboard__sidebar--selected";
+
+  if (!isAdminRole) {
+    return null;
+  }
 
   return (
     <div>

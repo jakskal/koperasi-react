@@ -8,10 +8,9 @@ import {useContext} from "react";
 import {AuthContext} from "../context";
 import {toast} from "sonner";
 import {getProfile} from "../services/auth";
-import {useLoaderData} from "@tanstack/react-router";
 
 export const Route = createFileRoute("/dashboard")({
-  beforeLoad: async ({context}) => {
+  beforeLoad: async ({context, location}) => {
     const token = localStorage.getItem("token");
     if (!token) throw redirect({to: "/login"});
     let user = null;
@@ -24,10 +23,14 @@ export const Route = createFileRoute("/dashboard")({
           duration: 2000,
           closeButton: true,
         });
-        console.log("Token invalid or expired:", error);
+        console.error("Token invalid or expired:", error);
         localStorage.removeItem("token");
+        localStorage.removeItem("authUser");
         throw redirect({to: "/login"});
       }
+    }
+    if (user?.data?.role_id === 3 && !["/dashboard", "/dashboard/"].includes(location.pathname)) {
+      throw redirect({to: "/dashboard"});
     }
     return {user};
   },
@@ -35,14 +38,19 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function DashboardComponent() {
+  const {user} = useContext(AuthContext);
+  const isAdminRole = [0, 1, 2].includes(user?.role_id);
+
   return (
-    <div className="dashboard">
+    <div className={isAdminRole ? "dashboard" : "dashboard dashboard--no-sidebar"}>
       <div className="dashboard__header">
         <Header />
       </div>
-      <div className="dashboard__sidebar">
-        <SideBar />
-      </div>
+      {isAdminRole && (
+        <div className="dashboard__sidebar">
+          <SideBar />
+        </div>
+      )}
       <div className="dashboard__content">
         <ErrorBoundary>
           <Outlet />

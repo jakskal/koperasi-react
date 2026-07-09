@@ -8,7 +8,7 @@ export function useListPinjaman(params = {}) {
     pageSize = 2,
     status = "",
     loanType = "",
-    sortBy = "transaction_date",
+    sortBy = "updated_at",
     sortOrder = "desc",
     keyWord = "",
   } = params;
@@ -28,8 +28,8 @@ export function useSelectLoanTypes(params) {
 
 export function useSelectUserOptions(page_size = 200) {
   return useQuery({
-    queryKey: ["userOptions", page_size],
-    queryFn: () => fetchUserOptions({page_size}),
+    queryKey: ["userOptions", page_size, 3],
+    queryFn: () => fetchUserOptions({page_size, role_id: 3}),
   });
 }
 

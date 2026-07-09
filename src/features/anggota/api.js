@@ -1,7 +1,25 @@
 import {fetchAPI} from "../../services/http";
 
-export async function fetchListAnggota() {
-  const res = await fetchAPI("/v1/admin/users");
+export async function fetchListAnggota(params = {}) {
+  const {page = 1, pageSize = 10, keyword = "", roleID, excludeRoleID} = params;
+  const queryParams = new URLSearchParams();
+
+  queryParams.append("page", page);
+  queryParams.append("page_size", pageSize);
+  if (keyword) queryParams.append("keyword", keyword);
+  if (roleID !== undefined) queryParams.append("role_id", roleID);
+  if (excludeRoleID !== undefined) queryParams.append("exclude_role_id", excludeRoleID);
+
+  return fetchAPI(`/v1/admin/users?${queryParams.toString()}`);
+}
+
+export async function fetchAnggotaDetail(id) {
+  const res = await fetchAPI(`/v1/admin/user/${id}`);
+  return res.data;
+}
+
+export async function fetchAnggotaSavingSummary(id) {
+  const res = await fetchAPI(`/v1/admin/users/${id}/saving-summary`);
   return res.data;
 }
 

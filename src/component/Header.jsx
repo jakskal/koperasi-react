@@ -9,12 +9,12 @@ export default function Header() {
   const {user, setUser, isLoading} = useContext(AuthContext);
 
   const navigate = useNavigate();
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div>Memuat profil...</div>;
 
   return (
     <div className="main__header">
       <div className="main__header--search">
-        <h3>Welcome</h3>
+        <h3>Selamat datang</h3>
       </div>
       <div className="main__header--profile">
         <button
@@ -27,10 +27,10 @@ export default function Header() {
             });
           }}
         >
-          logout
+          Keluar
         </button>
-        <img src={muslimImg} alt="User avatar" className="main__header--avatar" />
-        <p className="main_header--username">{user.name}</p>
+        <img src={muslimImg} alt="Avatar pengguna" className="main__header--avatar" />
+        <p className="main_header--username">{user?.name || "-"}</p>
       </div>
     </div>
   );

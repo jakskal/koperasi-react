@@ -38,6 +38,9 @@ const DashboardSimpananSimpananIdLazyRouteImport = createFileRoute(
 const DashboardPinjamanPinjamanIdLazyRouteImport = createFileRoute(
   '/dashboard/pinjaman/$pinjamanId',
 )()
+const DashboardAnggotaAnggotaIdLazyRouteImport = createFileRoute(
+  '/dashboard/anggota/$anggotaId',
+)()
 
 const _rootIndexRoute = _rootIndexRouteImport.update({
   id: '/__root/',
@@ -129,6 +132,14 @@ const DashboardPinjamanPinjamanIdLazyRoute =
   } as any).lazy(() =>
     import('./routes/dashboard/pinjaman.$pinjamanId.lazy').then((d) => d.Route),
   )
+const DashboardAnggotaAnggotaIdLazyRoute =
+  DashboardAnggotaAnggotaIdLazyRouteImport.update({
+    id: '/anggota/$anggotaId',
+    path: '/anggota/$anggotaId',
+    getParentRoute: () => DashboardRoute,
+  } as any).lazy(() =>
+    import('./routes/dashboard/anggota.$anggotaId.lazy').then((d) => d.Route),
+  )
 
 export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
@@ -143,6 +154,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/tipe-simpanan': typeof DashboardTipeSimpananLazyRoute
   '/': typeof _rootIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/anggota/$anggotaId': typeof DashboardAnggotaAnggotaIdLazyRoute
   '/dashboard/pinjaman/$pinjamanId': typeof DashboardPinjamanPinjamanIdLazyRoute
   '/dashboard/simpanan/$simpananId': typeof DashboardSimpananSimpananIdLazyRoute
 }
@@ -158,6 +170,7 @@ export interface FileRoutesByTo {
   '/dashboard/tipe-simpanan': typeof DashboardTipeSimpananLazyRoute
   '/': typeof _rootIndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/anggota/$anggotaId': typeof DashboardAnggotaAnggotaIdLazyRoute
   '/dashboard/pinjaman/$pinjamanId': typeof DashboardPinjamanPinjamanIdLazyRoute
   '/dashboard/simpanan/$simpananId': typeof DashboardSimpananSimpananIdLazyRoute
 }
@@ -175,6 +188,7 @@ export interface FileRoutesById {
   '/dashboard/tipe-simpanan': typeof DashboardTipeSimpananLazyRoute
   '/__root/': typeof _rootIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/anggota/$anggotaId': typeof DashboardAnggotaAnggotaIdLazyRoute
   '/dashboard/pinjaman/$pinjamanId': typeof DashboardPinjamanPinjamanIdLazyRoute
   '/dashboard/simpanan/$simpananId': typeof DashboardSimpananSimpananIdLazyRoute
 }
@@ -193,6 +207,7 @@ export interface FileRouteTypes {
     | '/dashboard/tipe-simpanan'
     | '/'
     | '/dashboard/'
+    | '/dashboard/anggota/$anggotaId'
     | '/dashboard/pinjaman/$pinjamanId'
     | '/dashboard/simpanan/$simpananId'
   fileRoutesByTo: FileRoutesByTo
@@ -208,6 +223,7 @@ export interface FileRouteTypes {
     | '/dashboard/tipe-simpanan'
     | '/'
     | '/dashboard'
+    | '/dashboard/anggota/$anggotaId'
     | '/dashboard/pinjaman/$pinjamanId'
     | '/dashboard/simpanan/$simpananId'
   id:
@@ -224,6 +240,7 @@ export interface FileRouteTypes {
     | '/dashboard/tipe-simpanan'
     | '/__root/'
     | '/dashboard/'
+    | '/dashboard/anggota/$anggotaId'
     | '/dashboard/pinjaman/$pinjamanId'
     | '/dashboard/simpanan/$simpananId'
   fileRoutesById: FileRoutesById
@@ -336,6 +353,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardPinjamanPinjamanIdLazyRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/anggota/$anggotaId': {
+      id: '/dashboard/anggota/$anggotaId'
+      path: '/anggota/$anggotaId'
+      fullPath: '/dashboard/anggota/$anggotaId'
+      preLoaderRoute: typeof DashboardAnggotaAnggotaIdLazyRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
 
@@ -347,6 +371,7 @@ interface DashboardRouteChildren {
   DashboardTipePinjamanLazyRoute: typeof DashboardTipePinjamanLazyRoute
   DashboardTipeSimpananLazyRoute: typeof DashboardTipeSimpananLazyRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardAnggotaAnggotaIdLazyRoute: typeof DashboardAnggotaAnggotaIdLazyRoute
   DashboardPinjamanPinjamanIdLazyRoute: typeof DashboardPinjamanPinjamanIdLazyRoute
   DashboardSimpananSimpananIdLazyRoute: typeof DashboardSimpananSimpananIdLazyRoute
 }
@@ -359,6 +384,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardTipePinjamanLazyRoute: DashboardTipePinjamanLazyRoute,
   DashboardTipeSimpananLazyRoute: DashboardTipeSimpananLazyRoute,
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardAnggotaAnggotaIdLazyRoute: DashboardAnggotaAnggotaIdLazyRoute,
   DashboardPinjamanPinjamanIdLazyRoute: DashboardPinjamanPinjamanIdLazyRoute,
   DashboardSimpananSimpananIdLazyRoute: DashboardSimpananSimpananIdLazyRoute,
 }

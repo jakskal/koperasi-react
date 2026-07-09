@@ -2,6 +2,7 @@ import {generateRandomString} from "../../services/seed";
 import {formatDate} from "../../utils/formatDate";
 import {useState} from "react";
 import {useSelectSavingTypeOptions, useSelectUserOptions} from "./hooks";
+import {formatCurrencyInput, normalizeCurrencyInput} from "../../utils/currency";
 
 export default function SimpananForm({data, isEdit, onSubmit, isLoading = false}) {
   const dateNow = new Date().toISOString();
@@ -24,6 +25,12 @@ export default function SimpananForm({data, isEdit, onSubmit, isLoading = false}
     const {name, value} = e.target;
     setForm({...form, [name]: value});
   };
+
+  const handleCurrencyChange = (e) => {
+    const {name, value} = e.target;
+    setForm({...form, [name]: normalizeCurrencyInput(value)});
+  };
+
   return (
     <form
       onSubmit={async (e) => {
@@ -31,53 +38,75 @@ export default function SimpananForm({data, isEdit, onSubmit, isLoading = false}
         onSubmit(form);
       }}
     >
-      <select name="user_id" value={form.user_id} onChange={handleChange}>
-        <option value="">Pilih Anggota</option>
-        {members &&
-          members.map((member) => (
-            <option key={member.id} value={member.id}>
-              {member.name}
-            </option>
-          ))}
-      </select>
-      <select name="saving_type_id" value={form.saving_type_id} onChange={handleChange}>
-        <option value="">Pilih Jenis Simpanan</option>
-        {savingTypes &&
-          savingTypes.map((type) => (
-            <option key={type.id} value={type.id}>
-              {type.name}
-            </option>
-          ))}
-      </select>
-      <select name="transaction_type_id" value={form.transaction_type_id} onChange={handleChange}>
-        <option value="">Pilih Tipe Transaksi</option>
-        <option value="1">Penarikan</option>
-        <option value="2">Deposit</option>
-      </select>
-      <input
-        name="amount"
-        value={form.amount}
-        onChange={handleChange}
-        placeholder="Jumlah Simpanan"
-      />
-      <input
-        type="date"
-        name="transaction_date"
-        value={form.transaction_date}
-        onChange={handleChange}
-        placeholder="tanggal transaksi"
-      />
-      <input name="note" value={form.note} onChange={handleChange} placeholder="catatan" />
-      {isEdit && (
+      <label>
+        Anggota
+        <select name="user_id" value={form.user_id} onChange={handleChange}>
+          <option value="">Pilih Anggota</option>
+          {members &&
+            members.map((member) => (
+              <option key={member.id} value={member.id}>
+                {member.name}
+              </option>
+            ))}
+        </select>
+      </label>
+      <label>
+        Jenis Simpanan
+        <select name="saving_type_id" value={form.saving_type_id} onChange={handleChange}>
+          <option value="">Pilih Jenis Simpanan</option>
+          {savingTypes &&
+            savingTypes.map((type) => (
+              <option key={type.id} value={type.id}>
+                {type.name}
+              </option>
+            ))}
+        </select>
+      </label>
+      <label>
+        Tipe Transaksi
+        <select name="transaction_type_id" value={form.transaction_type_id} onChange={handleChange}>
+          <option value="">Pilih Tipe Transaksi</option>
+          <option value="1">Setoran</option>
+          <option value="2">Penarikan</option>
+        </select>
+      </label>
+      <label>
+        Jumlah
         <input
-          name="change_note"
-          value={form.change_note}
-          onChange={handleChange}
-          placeholder="catatan perubahan data"
+          name="amount"
+          value={formatCurrencyInput(form.amount)}
+          onChange={handleCurrencyChange}
+          inputMode="numeric"
+          placeholder="Jumlah Simpanan"
         />
+      </label>
+      <label>
+        Tanggal Transaksi
+        <input
+          type="date"
+          name="transaction_date"
+          value={form.transaction_date}
+          onChange={handleChange}
+          placeholder="Tanggal transaksi"
+        />
+      </label>
+      <label>
+        Catatan
+        <input name="note" value={form.note} onChange={handleChange} placeholder="Catatan" />
+      </label>
+      {isEdit && (
+        <label>
+          Catatan Perubahan
+          <input
+            name="change_note"
+            value={form.change_note}
+            onChange={handleChange}
+            placeholder="Catatan perubahan data"
+          />
+        </label>
       )}
       <button type="submit" disabled={isLoading}>
-        {isLoading ? "Menyimpan..." : `${isEdit ? "Update" : "Buat"} Simpanan`}
+        {isLoading ? "Menyimpan..." : `${isEdit ? "Ubah" : "Buat"} Simpanan`}
       </button>
     </form>
   );

@@ -3,20 +3,33 @@ import DataTable from "../../component/Datatable/Datatable";
 import {mapListSimpanan} from "../../features/simpanan/mapper";
 import {useListSimpanan} from "../../features/simpanan/hooks.js";
 import "../../styles/dashboard-simpanan.css";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {createSimpanan, deleteSimpanan, updateSimpanan} from "../../features/simpanan/api.js";
 import Modal from "../../modal/Modal.jsx";
 import SimpananForm from "../../features/simpanan/SimpananForm.jsx";
 import {FiEdit, FiTrash2} from "react-icons/fi";
 import {toast} from "sonner";
+import SearchBar from "../../component/SearchBar/SearchBar.jsx";
+import Pagination from "../../component/Pagination/Pagination.jsx";
 
 export const Route = createLazyFileRoute("/dashboard/simpanan")({
   component: SimpananRouteComponent,
 });
 
 function SimpananRouteComponent() {
-  const {data: rawData, isLoading, refetch} = useListSimpanan();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [searchInput, setSearchInput] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const {
+    data: responseData,
+    isLoading,
+    refetch,
+  } = useListSimpanan({page: currentPage, pageSize, keyword: searchKeyword});
+  const rawData = responseData?.data || [];
+  const pageInfo = responseData?.page_info || {page: 1, page_size: pageSize, count: 0};
   const displayData = rawData?.map(mapListSimpanan) || [];
+  const totalPages = Math.max(1, Math.ceil(pageInfo.count / pageInfo.page_size));
 
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -24,6 +37,40 @@ function SimpananRouteComponent() {
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    if (searchInput.trim() === "") {
+      setCurrentPage(1);
+      setSearchKeyword("");
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setCurrentPage(1);
+      setSearchKeyword(searchInput.trim());
+    }, 450);
+
+    return () => clearTimeout(timer);
+  }, [searchInput]);
+
+  const handleSearch = (term) => {
+    setSearchInput(term);
+    if (term.trim() === "") {
+      setCurrentPage(1);
+      setSearchKeyword("");
+    }
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
+  const handlePageSizeChange = (newSize) => {
+    setPageSize(newSize);
+    setCurrentPage(1);
+  };
 
   const handleEdit = async (id) => {
     const row = rawData.find((item) => item.id == id);
@@ -73,23 +120,23 @@ function SimpananRouteComponent() {
       toast.success("Simpanan berhasil dibuat.", {duration: 2000, closeButton: true});
     } catch (error) {
       toast.error("Gagal membuat simpanan.", {duration: 2000, closeButton: true});
-      console.log("Error creating simpanan:", error);
+      console.error("Error creating simpanan:", error);
     } finally {
       setIsCreating(false);
     }
   };
-  if (isLoading) return <p>loading...</p>;
+  if (isLoading && !responseData) return <p>Memuat data simpanan...</p>;
 
   const columns = [
     {key: "id", label: "ID Simpanan"},
     {key: "saving_type_name", label: "Tipe Simpanan"},
     {key: "user_name", label: "Nama Anggota"},
-    {key: "amount", label: "Jumlah Simpanan"},
+    {key: "amount", label: "Jumlah"},
     {key: "transaction_type_name", label: "Tipe Transaksi"},
-    {key: "transaction_date", label: "Tanggal Simpanan"},
+    {key: "transaction_date", label: "Tanggal Transaksi"},
     {
       key: "action",
-      label: "Action",
+      label: "Aksi",
       render: (row) => (
         <div>
           <button onClick={() => handleEdit(row.id)} disabled={isUpdating} title="Edit">
@@ -105,10 +152,18 @@ function SimpananRouteComponent() {
   return (
     <div className="main__simpanan">
       <button className="button__simpanan--add" onClick={() => setIsCreateOpen(true)}>
-        {" "}
         + Buat Simpanan
       </button>
+      <SearchBar placeholder="Cari simpanan atau anggota.." value={searchInput} onChange={handleSearch} />
       <DataTable columns={columns} data={displayData} idKey="id"></DataTable>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalItems={pageInfo.count}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+        onPageSizeChange={handlePageSizeChange}
+      />
 
       <Modal isOpen={isEditOpen} onClose={() => setIsEditOpen(false)} title="Edit Simpanan">
         <SimpananForm

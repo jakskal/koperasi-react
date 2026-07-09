@@ -1,9 +1,14 @@
 import {fetchAPI} from "../../services/http";
 
-export async function fetchListSimpanan() {
-  const res = await fetchAPI("/v1/admin/saving");
-  console.log("res", res);
-  return res.data || [];
+export async function fetchListSimpanan(params = {}) {
+  const {page = 1, pageSize = 10, keyword = ""} = params;
+  const queryParams = new URLSearchParams();
+
+  queryParams.append("page", page);
+  queryParams.append("page_size", pageSize);
+  if (keyword) queryParams.append("keyword", keyword);
+
+  return fetchAPI(`/v1/admin/saving?${queryParams.toString()}`);
 }
 
 export async function createSimpanan(data) {

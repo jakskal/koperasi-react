@@ -19,7 +19,7 @@ export default function TipeSimpananForm({data, onSubmit}) {
   return (
     <form onSubmit={handleSubmit}>
       <label>
-        Nama Tipe Simpanan:
+        Nama Tipe Simpanan
         <input type="text" name="name" value={formData.name} onChange={handleChange} />
       </label>
       <button type="submit">Simpan</button>

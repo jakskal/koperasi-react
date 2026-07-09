@@ -9,9 +9,16 @@ export function AuthProvider({children, value}) {
   const [isLoading, setIsLoading] = useState(false);
 
   async function fetchUser() {
-    const res = await getProfile();
-    setUser(res.data);
-    setIsLoading(false);
+    try {
+      const res = await getProfile();
+      setUser(res.data);
+    } catch {
+      localStorage.removeItem("token");
+      localStorage.removeItem("authUser");
+      setUser(null);
+    } finally {
+      setIsLoading(false);
+    }
   }
   useEffect(() => {
     setIsLoading(true);

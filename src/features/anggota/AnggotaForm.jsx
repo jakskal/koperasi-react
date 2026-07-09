@@ -51,7 +51,7 @@ export default function AnggotaForm({data, onSubmit, isLoading = false}) {
 
   const handleNestedChange = (parent, e) => {
     const {name, type, checked, value} = e.target;
-    const inputValue = type === "checkbox" ? checked : value;
+    const inputValue = type === "checkbox" ? checked : name === "is_active_member" ? value === "true" : value;
     setForm({
       ...form,
       [parent]: {
@@ -68,63 +68,86 @@ export default function AnggotaForm({data, onSubmit, isLoading = false}) {
         onSubmit(form);
       }}
     >
-      <input name="name" value={form.name} onChange={handleChange} placeholder="Nama" />
-      <div style={{position: "relative"}}>
-        <input
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-          placeholder="Password"
-          type={showPassword ? "text" : "password"}
-        />
-
-        <button
-          type="button"
-          onClick={() => setShowPassword(!showPassword)}
-          style={{position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)"}}
-        >
-          {showPassword ? "Hide" : "Show"}
-        </button>
-      </div>
-      <input
-        name="email"
-        value={form.email}
-        onChange={handleChange}
-        placeholder="Email"
-        type="email"
-      />
-      <input
-        name="phone"
-        value={form.phone}
-        onChange={handleChange}
-        placeholder="Phone"
-        type="phone"
-      />
-      <select name="role_id" value={form.role_id} onChange={handleChange}>
-        <option value=""> -- Pilih Role --</option>
-        <option value="2">Admin</option>
-        <option value="3">Member</option>
-      </select>
-      <select name="status_id" value={form.status_id} onChange={handleChange}>
-        <option value=""> -- Status Keanggotaan --</option>
-        <option value="1">Baru</option>
-        <option value="2">Sudah Terverifikasi</option>
-      </select>
-      <input
-        name="member_id"
-        value={form.attribute.member_id}
-        onChange={(e) => handleNestedChange("attribute", e)}
-        placeholder="Memer ID"
-      />
       <label>
-        Apakah anggota aktif?
+        Nama
+        <input name="name" value={form.name} onChange={handleChange} placeholder="Nama" />
+      </label>
+      <label>
+        Password
+        <div style={{position: "relative"}}>
+          <input
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="Password"
+            type={showPassword ? "text" : "password"}
+          />
+
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            style={{position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)"}}
+          >
+            {showPassword ? "Sembunyikan" : "Tampilkan"}
+          </button>
+        </div>
+      </label>
+      <label>
+        Email
         <input
-          type="checkbox"
-          name="is_active_member"
-          checked={form.attribute.is_active_member || false}
-          value={form.attribute.is_active_member}
-          onChange={(e) => handleNestedChange("attribute", e)}
+          name="email"
+          value={form.email}
+          onChange={handleChange}
+          placeholder="Email"
+          type="email"
         />
+      </label>
+      <label>
+        No. HP
+        <input
+          name="phone"
+          value={form.phone}
+          onChange={handleChange}
+          placeholder="No. HP"
+          type="phone"
+        />
+      </label>
+      <label>
+        Peran
+        <select name="role_id" value={form.role_id} onChange={handleChange}>
+          <option value=""> -- Pilih Peran --</option>
+          <option value="2">Admin</option>
+          <option value="3">Anggota</option>
+        </select>
+      </label>
+      <label>
+        Status Keanggotaan
+        <select name="status_id" value={form.status_id} onChange={handleChange}>
+          <option value=""> -- Status Keanggotaan --</option>
+          <option value="1">Baru</option>
+          <option value="2">Sudah Terverifikasi</option>
+        </select>
+      </label>
+      <label>
+        Nomor Anggota
+        <input
+          name="member_id"
+          value={form.attribute.member_id}
+          onChange={(e) => handleNestedChange("attribute", e)}
+          placeholder="Nomor Anggota"
+          required={String(form.role_id) === "3"}
+        />
+      </label>
+      <label>
+        Status Anggota
+        <select
+          name="is_active_member"
+          value={String(form.attribute.is_active_member)}
+          onChange={(e) => handleNestedChange("attribute", e)}
+        >
+          <option value="true">Aktif</option>
+          <option value="false">Tidak Aktif</option>
+        </select>
       </label>
       <label>
         Tanggal Bergabung
@@ -144,24 +167,33 @@ export default function AnggotaForm({data, onSubmit, isLoading = false}) {
           onChange={(e) => handleNestedChange("attribute", e)}
         />
       </label>
-      <input
-        name="birth_place"
-        value={form.attribute.birth_place}
-        onChange={(e) => handleNestedChange("attribute", e)}
-        placeholder="Tempat Lahir"
-      />
-      <input
-        name="address"
-        value={form.attribute.address}
-        onChange={(e) => handleNestedChange("attribute", e)}
-        placeholder="Alamat"
-      />
-      <input
-        name="profession"
-        value={form.attribute.profession}
-        onChange={(e) => handleNestedChange("attribute", e)}
-        placeholder="Profesi"
-      />
+      <label>
+        Tempat Lahir
+        <input
+          name="birth_place"
+          value={form.attribute.birth_place}
+          onChange={(e) => handleNestedChange("attribute", e)}
+          placeholder="Tempat Lahir"
+        />
+      </label>
+      <label>
+        Alamat
+        <input
+          name="address"
+          value={form.attribute.address}
+          onChange={(e) => handleNestedChange("attribute", e)}
+          placeholder="Alamat"
+        />
+      </label>
+      <label>
+        Profesi
+        <input
+          name="profession"
+          value={form.attribute.profession}
+          onChange={(e) => handleNestedChange("attribute", e)}
+          placeholder="Profesi"
+        />
+      </label>
       <button type="submit" disabled={isLoading}>
         {isLoading ? "Menyimpan..." : "Simpan"}
       </button>

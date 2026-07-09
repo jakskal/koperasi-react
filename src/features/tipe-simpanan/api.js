@@ -6,7 +6,6 @@ export async function fetchListTipeSimpanan() {
 }
 
 export async function createTipeSimpanan(data) {
-  console.log("API data:", data);
   const payload = {
     name: data.name,
   };

@@ -12,6 +12,7 @@ import {FiEdit, FiEye} from "react-icons/fi";
 import {markInstallmentAsPaid} from "../../features/installment/api";
 import {formatDateWithTime} from "../../utils/formatDate";
 import {toast} from "sonner";
+import {getInstallmentStatusLabel} from "../../utils/labels";
 
 export const Route = createLazyFileRoute("/dashboard/pinjaman/$pinjamanId")({
   component: RouteComponent,
@@ -46,7 +47,6 @@ function RouteComponent() {
   }
 
   async function handleCreateInstallment(formData) {
-    console.log("Create installment with data:", formData);
     try {
       await createInstallment(formData);
       setIsCreateOpen(false);
@@ -61,9 +61,7 @@ function RouteComponent() {
 
   async function markAsPaid(installmentId) {
     try {
-      // Call API to mark installment as paid
       await markInstallmentAsPaid(installmentId);
-      // Refetch installments data
       refetchInstallments();
       setIsMarkingPaidOpen(false);
       toast.success("Cicilan berhasil ditandai sebagai lunas.", {
@@ -87,34 +85,15 @@ function RouteComponent() {
     }
   }
 
-  const mapStatusToLabel = {
-    PAID: "Lunas",
-    PENDING: "Menunggu Pembayaran",
-    OVERDUE: "Jatuh Tempo",
-    CANCELLED: "Dibatalkan",
-  };
-
-  function getStatusLabel(status) {
-    return mapStatusToLabel[status] || status;
-  }
-  if (isLoading) return <p>loading...</p>;
-  if (isInstallmentsLoading) return <p>loading installments...</p>;
-  console.log("installments:", installments);
+  if (isLoading) return <p>Memuat detail pinjaman...</p>;
+  if (isInstallmentsLoading) return <p>Memuat data cicilan...</p>;
 
   const installmentColumns = [
     {label: "ID", key: "id"},
     {
       label: "Status",
       key: "status",
-      render: (value) => {
-        const statusMap = {
-          PAID: "Lunas",
-          PENDING: "Menunggu Pembayaran",
-          OVERDUE: "Jatuh Tempo",
-          CANCELLED: "Dibatalkan",
-        };
-        return statusMap[value.status] || value.status;
-      },
+      render: (value) => getInstallmentStatusLabel(value.status),
     },
     {label: "Tipe Transaksi", key: "transaction_type_name"},
     {
@@ -146,13 +125,12 @@ function RouteComponent() {
     {label: "Catatan", key: "notes"},
     {
       key: "action",
-      label: "Action",
+      label: "Aksi",
       render: (row) => (
         <>
           {row.status === "PENDING" && (
             <button
               onClick={() => {
-                console.log("Marking as paid:", row);
                 let amount =
                   parseInt(row.principal_amount) > 0
                     ? row.principal_amount
@@ -181,7 +159,7 @@ function RouteComponent() {
         onClick={() => navigate({to: "/dashboard/pinjaman"})}
         style={{marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.5rem"}}
       >
-        <FiArrowLeft /> Back to List
+        <FiArrowLeft /> Kembali ke Daftar Pinjaman
       </button>
       <div className="pinjaman__detail--header">
         <h3>Detail Pinjaman #{pinjamanId}</h3>
@@ -267,9 +245,9 @@ function RouteComponent() {
           <DataTable columns={installmentColumns} data={installments} />
         </div>
       ) : (
-        <p>No installments available.</p>
+        <p>Belum ada cicilan.</p>
       )}
-      <Modal isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} title="Bayar   Cicilan">
+      <Modal isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} title="Bayar Cicilan">
         <CicilanForm loanId={pinjamanId} onSubmit={handleCreateInstallment} />
       </Modal>
       <Modal
@@ -328,7 +306,7 @@ function RouteComponent() {
         {selectedInstallment ? (
           <div>
             <p>ID: {selectedInstallment.id}</p>
-            <p>Status Saat ini: {getStatusLabel(selectedInstallment.status)}</p>
+            <p>Status Saat ini: {getInstallmentStatusLabel(selectedInstallment.status)}</p>
             <p>Tipe Transaksi: {selectedInstallment.transaction_type_name}</p>
             <p>
               Tanggal Transaksi: {formatDateWithTime(new Date(selectedInstallment.payment_date))}
@@ -347,7 +325,7 @@ function RouteComponent() {
                     <div className="change-item__main" key={index}>
                       <div className="change-item__header">
                         <p>Tanggal Perubahan: {formatDateWithTime(new Date(changes.created_at))}</p>
-                        <p>Status Sebelumnya: {getStatusLabel(changes.Status)}</p>
+                        <p>Status Sebelumnya: {getInstallmentStatusLabel(changes.Status)}</p>
                       </div>
                       <p className="change-item__notes">
                         Catatan Atas Perubahan: {changes.ChangesNotes}
@@ -361,7 +339,7 @@ function RouteComponent() {
             </div>
           </div>
         ) : (
-          <p>No installment details available.</p>
+          <p>Detail cicilan tidak tersedia.</p>
         )}
       </Modal>
     </div>

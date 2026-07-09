@@ -7,20 +7,18 @@ export async function fetchListPinjaman(params = {}) {
     keyWord = "",
     loanType = "",
     status = "",
-    sortBy = "transaction_date",
+    sortBy = "updated_at",
     sortOrder = "desc",
   } = params;
-  console.log("the params", params);
 
   const queryParams = new URLSearchParams();
   queryParams.append("page", page);
   if (keyWord) queryParams.append("keyword", keyWord);
   if (loanType) queryParams.append("loan_type_id", loanType);
   if (status) queryParams.append("status", status);
-  if (sortBy) queryParams.append("sort_by", sortBy);
-  if (sortOrder) queryParams.append("sort_order", sortOrder);
+  if (sortBy) queryParams.append("order_by", sortBy);
+  if (sortOrder) queryParams.append("order", sortOrder);
   if (pageSize) queryParams.append("page_size", pageSize);
-  console.log("query param", queryParams);
 
   const res = await fetchAPI(`/v1/admin/loan?${queryParams.toString()}`);
   return res || [];
@@ -56,8 +54,6 @@ export async function updatePinjaman(data) {
     transaction_date: new Date(data.transaction_date).toISOString(),
     notes: data.notes,
   };
-
-  console.log("data", data);
 
   return fetchAPI(`/v1/admin/loan/${data.id}`, {
     method: "PUT",

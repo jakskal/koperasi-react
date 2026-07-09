@@ -7,6 +7,7 @@ import TipeSimpananForm from "../../features/tipe-simpanan/TipeSimpananForm";
 import {useState} from "react";
 import {toast} from "sonner";
 import {createTipeSimpanan, updateTipeSimpanan} from "../../features/tipe-simpanan/api";
+import {getRecordStatusLabel} from "../../utils/labels";
 
 export const Route = createLazyFileRoute("/dashboard/tipe-simpanan")({
   component: RouteComponent,
@@ -27,10 +28,10 @@ function RouteComponent() {
     {
       label: "Status",
       key: "status",
-      render: (row) => (row.status == "ACTIVE" ? "Aktif" : "Tidak Aktif"),
+      render: (row) => getRecordStatusLabel(row.status),
     },
     {
-      label: "Actions",
+      label: "Aksi",
       key: "actions",
       render: (row) => (
         <div>
@@ -47,7 +48,6 @@ function RouteComponent() {
 
   async function handleCreate(formData) {
     try {
-      // Placeholder for create logic
       setIsCreateOpen(false);
       await createTipeSimpanan(formData);
       toast.success(`Tipe simpanan ${formData.name} berhasil dibuat.`, {
@@ -69,7 +69,6 @@ function RouteComponent() {
 
   async function handleUpdate(formData) {
     try {
-      // Placeholder for update logic
       await updateTipeSimpanan(formData);
       setIsEditOpen(false);
       setSelectedRow(null);
@@ -83,7 +82,6 @@ function RouteComponent() {
 
   async function markActive(id) {
     try {
-      // Placeholder for mark active logic
       await updateTipeSimpanan({id, status: "ACTIVE"});
       toast.success(
         `Tipe simpanan ${data.find((item) => item.id === id)?.name} berhasil diaktifkan.`,
@@ -98,7 +96,6 @@ function RouteComponent() {
 
   async function markInactive(id) {
     try {
-      // Placeholder for mark inactive logic
       await updateTipeSimpanan({id, status: "INACTIVE"});
       toast.success(
         `Tipe simpanan ${data.find((item) => item.id === id)?.name} berhasil dinonaktifkan.`,
@@ -111,8 +108,8 @@ function RouteComponent() {
     }
   }
 
-  if (isLoading) return <p>loading...</p>;
-  if (error) return <p>Error loading tipe simpanan.</p>;
+  if (isLoading) return <p>Memuat tipe simpanan...</p>;
+  if (error) return <p>Gagal memuat tipe simpanan.</p>;
   return (
     <div className="tipe-simpanan__main">
       <button className="tipe-simpanan__button--add" onClick={() => setIsCreateOpen(true)}>

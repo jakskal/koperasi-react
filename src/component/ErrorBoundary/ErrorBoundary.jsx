@@ -16,9 +16,9 @@ class ErrorBoundary extends Component {
     if (this.state.hasError) {
       return (
         <div className="error-boundary">
-          <h2>Something went wrong.</h2>
+          <h2>Terjadi kesalahan.</h2>
           <p>
-            Error, <Link to="/dashboard">Go Home</Link>
+            Silakan <Link to="/dashboard">kembali ke dashboard</Link>.
           </p>
         </div>
       );

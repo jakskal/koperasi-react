@@ -6,8 +6,21 @@ import {login} from "../services/auth";
 import "../styles/login.css";
 import {toast} from "sonner";
 export const Route = createFileRoute("/login")({
-  beforeLoad: async ({}) => {
-    if (localStorage.getItem("authUser")) {
+  beforeLoad: async () => {
+    localStorage.removeItem("authUser");
+
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    let hasValidSession = false;
+    try {
+      await getProfile();
+      hasValidSession = true;
+    } catch {
+      localStorage.removeItem("token");
+    }
+
+    if (hasValidSession) {
       throw redirect({to: "/dashboard"});
     }
   },
@@ -35,7 +48,7 @@ function RouteComponent() {
       setToken(loginResp.token);
 
       const profile = await getProfile();
-      setUser({name: profile.data.name});
+      setUser(profile.data);
       await navigate({to: "/dashboard"});
     } catch (error) {
       toast.error("Gagal login. Silakan periksa kembali email dan password Anda.", {
@@ -49,27 +62,32 @@ function RouteComponent() {
   return (
     <div className="login__body">
       <div className="login__content">
-        <h1 className="login__header">welcome</h1>
+        <h1 className="login__header">Koperasi</h1>
         <form className="login__form" onSubmit={handleLogin}>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="email"
-            required
-          />
-          <br />
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="password"
-            required
-          />
+          <label>
+            Email
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+              required
+            />
+          </label>
+          <label>
+            Password
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+              required
+            />
+          </label>
           <button type="submit" className="login__button">
-            Login
+            Masuk
           </button>
         </form>
       </div>

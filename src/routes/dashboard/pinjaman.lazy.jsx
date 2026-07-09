@@ -4,7 +4,7 @@ import {useListPinjaman} from "../../features/pinjaman/hooks";
 import DataTable from "../../component/Datatable/Datatable";
 import {FiEdit, FiTrash2, FiEye} from "react-icons/fi";
 import PinjamanForm from "../../features/pinjaman/PinjamanForm";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Modal from "../../modal/Modal";
 import Pagination from "../../component/Pagination/Pagination";
 import "../../styles/dashboard-pinjaman.css";
@@ -18,6 +18,7 @@ export const Route = createLazyFileRoute("/dashboard/pinjaman")({
 
 function PinjamanRouteComponent() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchInput, setSearchInput] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [pageSize, setPageSize] = useState(5);
 
@@ -35,21 +36,30 @@ function PinjamanRouteComponent() {
 
   const rawData = Array.isArray(responseData) ? responseData : responseData?.data || [];
   const pageInfo = responseData?.page_info || {page: 1, page_size: 15, count: 0};
-  console.log("pageinfo", pageInfo);
-  console.log("responsedata", responseData);
   const displayData = rawData?.map(mapListPinjaman);
-  const totalPages = Math.ceil(pageInfo.count / pageInfo.page_size);
+  const totalPages = Math.max(1, Math.ceil(pageInfo.count / pageInfo.page_size));
 
-  const handleSearch = (term) => {
-    console.log("term", term);
-    setCurrentPage(1);
-    setSearchKeyword(term);
-    // Debounce - only call API after 300ms of no typing
+  useEffect(() => {
+    if (searchInput.trim() === "") {
+      setCurrentPage(1);
+      setSearchKeyword("");
+      return;
+    }
+
     const timer = setTimeout(() => {
-      // API call happens here via queryKey change
-    }, 1000);
+      setCurrentPage(1);
+      setSearchKeyword(searchInput.trim());
+    }, 450);
 
     return () => clearTimeout(timer);
+  }, [searchInput]);
+
+  const handleSearch = (term) => {
+    setSearchInput(term);
+    if (term.trim() === "") {
+      setCurrentPage(1);
+      setSearchKeyword("");
+    }
   };
 
   const handlePageChange = (newPage) => {
@@ -61,7 +71,6 @@ function PinjamanRouteComponent() {
   const handlePageSizeChange = (newSize) => {
     setPageSize(newSize);
     setCurrentPage(1);
-    refetch();
   };
 
   const handleCreate = async (formData) => {
@@ -116,7 +125,7 @@ function PinjamanRouteComponent() {
   };
 
   const navigate = useNavigate();
-  if (isLoading) return <p>loading...</p>;
+  if (isLoading && !responseData) return <p>Memuat data pinjaman...</p>;
 
   const columns = [
     {key: "id", label: "ID Pinjaman"},
@@ -133,7 +142,7 @@ function PinjamanRouteComponent() {
     {key: "transaction_date", label: "Tanggal Pinjaman"},
     {
       key: "action",
-      label: "Action",
+      label: "Aksi",
       render: (row) => (
         <div>
           <button onClick={() => handleEdit(row.id)} disabled={isUpdating} title="Edit">
@@ -154,7 +163,7 @@ function PinjamanRouteComponent() {
       <button className="button__pinjaman--add" onClick={() => setIsCreateOpen(true)}>
         + Buat Pinjaman
       </button>
-      <SearchBar placeholder="Cari pinjaman.." value={searchKeyword} onChange={handleSearch} />
+      <SearchBar placeholder="Cari pinjaman.." value={searchInput} onChange={handleSearch} />
       <DataTable columns={columns} data={displayData} idKey="id" />
       <Pagination
         currentPage={currentPage}

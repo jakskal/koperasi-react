@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {formatDate} from "../../utils/formatDate";
+import {formatCurrencyInput, normalizeCurrencyInput} from "../../utils/currency";
 
 export default function CicilanForm({loanId, onSubmit, onUpdate}) {
   const dateNow = new Date().toISOString();
@@ -16,6 +17,11 @@ export default function CicilanForm({loanId, onSubmit, onUpdate}) {
   const handleChange = (e) => {
     const {name, value} = e.target;
     setForm({...form, [name]: value});
+  };
+
+  const handleCurrencyChange = (e) => {
+    const {name, value} = e.target;
+    setForm({...form, [name]: normalizeCurrencyInput(value)});
   };
 
   const handleSubmit = async (e) => {
@@ -43,8 +49,9 @@ export default function CicilanForm({loanId, onSubmit, onUpdate}) {
           id="amount"
           type="text"
           name="amount"
-          value={form.amount}
-          onChange={handleChange}
+          value={formatCurrencyInput(form.amount)}
+          onChange={handleCurrencyChange}
+          inputMode="numeric"
           placeholder="Masukkan jumlah cicilan"
           required
         />
@@ -75,7 +82,7 @@ export default function CicilanForm({loanId, onSubmit, onUpdate}) {
       </div>
 
       <div className="form__group">
-        <label htmlFor="status">Status Cicilan </label>
+        <label htmlFor="status">Status Cicilan</label>
         <select id="status" name="status" value={form.status} onChange={handleChange}>
           <option value="PAID">Lunas</option>
           <option value="PENDING">Menunggu Pembayaran</option>

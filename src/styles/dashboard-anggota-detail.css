@@ -1,0 +1,111 @@
+@import url(./index.css);
+
+.anggota-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.anggota-detail__header,
+.anggota-detail__section {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+
+.anggota-detail__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 14px 16px;
+}
+
+.anggota-detail__header h3,
+.anggota-detail__section h4 {
+  margin: 0;
+  color: var(--charcoal);
+}
+
+.anggota-detail__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.anggota-detail__section {
+  padding: 16px;
+}
+
+.anggota-detail__profile,
+.anggota-detail__summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.anggota-detail__field,
+.anggota-detail__metric {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-muted);
+}
+
+.anggota-detail__label {
+  color: var(--gray);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.anggota-detail__value {
+  color: var(--charcoal);
+  font-size: 0.96rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.anggota-detail__metric .anggota-detail__value {
+  font-size: 1.15rem;
+}
+
+.anggota-detail__table {
+  width: 100%;
+  margin-top: 12px;
+  overflow-x: auto;
+}
+
+.anggota-detail__table table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+}
+
+.anggota-detail__table th,
+.anggota-detail__table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.anggota-detail__table th {
+  color: var(--gray);
+  background: var(--surface-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.anggota-detail__empty {
+  color: var(--gray);
+  padding: 16px 0 0;
+}

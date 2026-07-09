@@ -6,11 +6,8 @@ import Modal from "../../modal/Modal";
 import "../../styles/dashboard-tipe-pinjaman.css";
 import TipePinjamanForm from "../../features/tipe-pinjaman/TipePinjamanForm";
 import {toast} from "sonner";
-import {
-  updateTipePinjaman,
-  createTipePinjaman,
-  deleteTipePinjaman,
-} from "../../features/tipe-pinjaman/api";
+import {updateTipePinjaman, createTipePinjaman} from "../../features/tipe-pinjaman/api";
+import {getRecordStatusLabel} from "../../utils/labels";
 
 export const Route = createLazyFileRoute("/dashboard/tipe-pinjaman")({
   component: RouteComponent,
@@ -23,8 +20,6 @@ function RouteComponent() {
   const [selectedRow, setSelectedRow] = useState(null);
 
   async function handleCreate(formData) {
-    // Implement create logic here
-    // After creation, you might want to refetch the list
     try {
       await createTipePinjaman(formData);
       setIsCreateOpen(false);
@@ -40,15 +35,12 @@ function RouteComponent() {
   }
 
   function handleEdit(id) {
-    // Implement edit logic here
     const row = data.find((item) => item.id === id);
     setSelectedRow(row);
     setIsEditOpen(true);
   }
 
   async function handleUpdate(formData) {
-    // Implement update logic here
-    // After update, you might want to refetch the list
     try {
       await updateTipePinjaman(formData);
       setIsEditOpen(false);
@@ -62,8 +54,6 @@ function RouteComponent() {
   }
 
   async function markActive(id) {
-    // Implement mark active logic here
-    // After marking active, you might want to refetch the list
     try {
       await updateTipePinjaman({id, status: "ACTIVE"});
       toast.success(
@@ -78,8 +68,6 @@ function RouteComponent() {
   }
 
   async function markInactive(id) {
-    // Implement mark inactive logic here
-    // After marking inactive, you might want to refetch the list
     try {
       await updateTipePinjaman({id, status: "INACTIVE"});
       toast.success(
@@ -94,11 +82,11 @@ function RouteComponent() {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Memuat tipe pinjaman...</div>;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>Gagal memuat tipe pinjaman.</div>;
   }
   const columns = [
     {
@@ -112,10 +100,10 @@ function RouteComponent() {
     {
       label: "Status",
       key: "status",
-      render: (row) => (row.status == "ACTIVE" ? "Aktif" : "Tidak Aktif"),
+      render: (row) => getRecordStatusLabel(row.status),
     },
     {
-      label: "Actions",
+      label: "Aksi",
       key: "actions",
       render: (row) => (
         <div>
