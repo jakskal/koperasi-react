@@ -32,8 +32,8 @@ function RouteComponent() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "admin@gmail.com",
+    password: "1234",
   });
 
   const handleChange = (e) => {
